@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SSViewController : UIViewController
+- (IBAction)getStarted:(id)sender;
 
 @end

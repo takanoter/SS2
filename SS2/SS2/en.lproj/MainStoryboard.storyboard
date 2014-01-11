@@ -1,26 +1,159 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2519" systemVersion="12A206j" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1856"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--class Prefix:identifier View Controller-->
+        <!--View Controller - KickOffScene-->
         <scene sceneID="4">
             <objects>
-                <viewController id="2" customClass="SSViewController" sceneMemberID="viewController">
+                <viewController title="KickOffScene" wantsFullScreenLayout="YES" id="2" customClass="SSViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gtF-QH-1lH">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dBN-Oc-CON">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="getStarted:" destination="2" eventType="touchUpInside" id="wB6-h0-T24"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="gtF-QH-1lH" secondAttribute="trailing" constant="-115" id="IP9-yc-q5a"/>
+                            <constraint firstAttribute="bottom" secondItem="dBN-Oc-CON" secondAttribute="bottom" constant="253" id="X77-ua-KAI"/>
+                            <constraint firstItem="gtF-QH-1lH" firstAttribute="top" secondItem="5" secondAttribute="top" constant="484" id="YQf-Wc-FQU"/>
+                            <constraint firstItem="gtF-QH-1lH" firstAttribute="leading" secondItem="5" secondAttribute="leading" constant="115" id="iom-zU-lNf"/>
+                            <constraint firstAttribute="trailing" secondItem="dBN-Oc-CON" secondAttribute="trailing" constant="88" id="lfp-yM-iGF"/>
+                            <constraint firstAttribute="bottom" secondItem="gtF-QH-1lH" secondAttribute="bottom" constant="-484" id="ywv-CI-H4S"/>
+                        </constraints>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="GVK-Yp-cia"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <segue destination="u8c-V1-FDn" kind="modal" identifier="segueKickOff2SongSelect" id="xnB-yB-Fc9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-642" y="-2241"/>
+        </scene>
+        <!--Song Select View Controller-->
+        <scene sceneID="iqz-e3-lxb">
+            <objects>
+                <viewController id="u8c-V1-FDn" customClass="SongSelectViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CAl-Am-Rjn">
+                        <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="cuJ-i8-ikD">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="824" id="11e-b0-pQa"/>
+                                    <constraint firstAttribute="height" constant="566" id="jWK-TN-tIC"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="u8c-V1-FDn" id="qRw-mf-DvR"/>
+                                    <outlet property="delegate" destination="u8c-V1-FDn" id="Alc-xS-5Zq"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cuJ-i8-ikD" firstAttribute="leading" secondItem="CAl-Am-Rjn" secondAttribute="leading" constant="41" id="NJv-YZ-MzL"/>
+                            <constraint firstItem="cuJ-i8-ikD" firstAttribute="top" secondItem="CAl-Am-Rjn" secondAttribute="top" constant="30" id="au6-IB-LLd"/>
+                        </constraints>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="songSelectView" destination="cuJ-i8-ikD" id="Ol1-BI-Eq4"/>
+                        <segue destination="Ami-Vi-2Vh" kind="modal" identifier="segueSongSelect2Play" id="h2W-w7-P50"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RB4-Us-cyv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="801" y="-2241"/>
+        </scene>
+        <!--Play View Controller-->
+        <scene sceneID="BCX-eU-AV6">
+            <objects>
+                <viewController id="Ami-Vi-2Vh" customClass="PlayViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="w3P-mQ-tGy">
+                        <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6w-Vl-c3h">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="157" id="alD-f1-vJl"/>
+                                    <constraint firstAttribute="height" constant="42" id="kbr-oe-aQ6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bvh-yd-Tu1">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="73" id="1j2-XY-Hd7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onTapBackButton:" destination="Ami-Vi-2Vh" eventType="touchUpInside" id="6oB-2D-0kn"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="bvh-yd-Tu1" secondAttribute="bottom" constant="209" id="0th-gx-aIB"/>
+                            <constraint firstItem="W6w-Vl-c3h" firstAttribute="leading" secondItem="w3P-mQ-tGy" secondAttribute="leading" constant="396" id="Imy-WI-0gU"/>
+                            <constraint firstItem="bvh-yd-Tu1" firstAttribute="trailing" secondItem="W6w-Vl-c3h" secondAttribute="trailing" type="default" id="knB-jd-7h4"/>
+                            <constraint firstItem="W6w-Vl-c3h" firstAttribute="top" secondItem="w3P-mQ-tGy" secondAttribute="top" constant="363" id="w23-Wd-TnJ"/>
+                        </constraints>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <segue destination="u8c-V1-FDn" kind="modal" identifier="seguePlay2SongSelect" id="6yU-CD-zjP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k47-hm-Y3x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2305" y="-2915"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="FirstResponder">
+            <source key="sourceIdentifier" type="user"/>
+            <relationships>
+                <relationship kind="action" name="action"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="6yU-CD-zjP"/>
+    </inferredMetricsTieBreakers>
 </document>
