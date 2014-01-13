@@ -8,6 +8,7 @@
 
 #import "SongSelectViewController.h"
 #import "PlayViewController.h"
+#import "DataManager.h"
 
 @implementation SongSelectViewController
 
@@ -49,8 +50,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"count for number of rows");
-    return 3;
+    return [gDataMgr songCount];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -68,7 +68,8 @@
     //TODO:heavy DataManager(IO) from BaseViewController,
     //1) independent thread for non-block OPEARATION, as Receiver
     //2) delegate?protocol? for close DATA-FETCH
-    cell.textLabel.text = @"heheheheh";
+    cell.textLabel.text = [gDataMgr getSourceNameById:section];
+    /*
     switch (section) {
         case 0: // First cell in section 1
             cell.textLabel.text = @"hello";
@@ -79,6 +80,7 @@
         default:
             NSLog((@"haha"));
     }
+     */
     return cell;
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "SSViewController.h"
+#import "DataManager.h"
 /*
 @interface SSViewController ()
 
@@ -16,6 +17,8 @@
 
 - (void)viewDidLoad
 {
+    gDataMgr = [DataManager alloc];
+    [gDataMgr loadFromSandboxDir:@""];
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 }
