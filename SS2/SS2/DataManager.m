@@ -59,7 +59,7 @@ DataManager *gDataMgr = NULL;
         NSString* bmsPathName = [NSString stringWithFormat:@"%@/%@.bms", resPath, sourceName];
         if (([fileMgr fileExistsAtPath:mp3PathName]==NO) ||
             ([fileMgr fileExistsAtPath:bmsPathName]==NO)) continue;
-        NSLog(@"[CHECK] get source:%@", sourceName);
+        NSLog(@"[CHECK] get source:%@ of mp3:%@", sourceName, mp3PathName);
         
         //  b.建立对象
         NSInteger globalSourceId = [self.songsById count]; //0-based

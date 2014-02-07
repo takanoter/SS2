@@ -14,18 +14,17 @@
 
 - (void)viewDidLoad
 {
-    NSLog(@"here load song select scene: view did load");
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    NSLog(@"here load song select scene: view will appear");
+    //
 }
 
 //  source data and delegation
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"this this this:%d", [indexPath row]);
+    //NSLog(@"this this this:%d", [indexPath row]);
     UITableViewCell *cell = [self.songSelectView cellForRowAtIndexPath:indexPath];
     if (cell != nil) {
         self.curSelection = cell.textLabel.text;
@@ -38,10 +37,10 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSLog(@"that that that:prepare for segue");
+    //NSLog(@"that that that:prepare for segue");
     if ([[segue identifier]isEqualToString:@"segueSongSelect2Play"]) {
         PlayViewController *destViewController = [segue destinationViewController];
-        destViewController.userConfigName = self.curSelection;
+        destViewController.userConfigSongName = self.curSelection;
     }
 }
 
@@ -58,12 +57,12 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] ;
-        NSLog(@"warning!!!");
+        //NSLog(@"warning!!!");
     }
     //NSInteger section = [indexPath section];
     
     NSInteger section = [indexPath row];
-    NSLog(@"call for section:%d", section);
+    //NSLog(@"call for section:%d", section);
    
     //TODO:heavy DataManager(IO) from BaseViewController,
     //1) independent thread for non-block OPEARATION, as Receiver
