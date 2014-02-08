@@ -8,6 +8,7 @@
 
 #import "PlayViewController.h"
 #import "DataManager.h"
+#import "BMSEngine.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 @interface PlayViewController () {
@@ -87,10 +88,16 @@
         return;
     }
     
+    BMSEngine* bms = [[BMSEngine alloc]initWithPathname:self.userConfigSongName];
+    SceneNote* scene = [[SceneNote alloc]init];
+    
     //loopSource [basicTimestamp, etc..]
     NSMutableDictionary *cb = [[NSMutableDictionary alloc] init];
-    [cb setObject:audioPlayer forKey:@"music"];
     [cb setObject:self.userConfigSongName forKey:@"name"];
+    [cb setObject:audioPlayer forKey:@"audio"];
+    [cb setObject:bms forKey:@"bms"];
+    [cb setObject:scene forKey:@"scene"];
+    
     
     [audioPlayer play];
     
@@ -107,16 +114,21 @@
 //不可重入
 - (void) timeLoop:(NSTimer*)timer{
     NSDictionary *loopConf = [timer userInfo];
-    AVAudioPlayer *player = [loopConf objectForKey:@"music"];
-    NSLog(@"[Debug][%@] time loop:%lf duration:%lf",
-          [loopConf objectForKey:@"name"],
-          player.currentTime,player.duration);
+    NSString *name = [loopConf objectForKey:@"name"];
+    AVAudioPlayer *player = [loopConf objectForKey:@"audio"];
+    BMSEngine* bms = [loopConf objectForKey:@"bms"];
+    SceneNote* scene = [loopConf objectForKey:@"scene"];
+    
+
+//    NSLog(@"[Debug][%@] time loop:%lf duration:%lf",[loopConf objectForKey:@"name"],player.currentTime,player.duration);
     
     double globalTimestamp = player.currentTime;
-    //curTimestamp
+    [bms getCurScene:scene atTimestamp:globalTimestamp inRange:1.0];
+    NSLog(@"[Check][timeloop:%@][ts:%lf pos:%lf][%d %d %d]",name, globalTimestamp, scene->basePos, [scene->channel[0] count], [scene->channel[1] count], [scene->channel[2] count]);
+    
     //curSceneScoreNodes = [BmsEngine getCurScene:scene atTimestamp:curtimestamp]
     //[Scene drawWithScoreNodes:curSceneNodes]
-    //NS
+    
 }
 
 

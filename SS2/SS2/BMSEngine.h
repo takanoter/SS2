@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#define G_MAX_CHANNEL_COUNT 5
+#define G_MAX_CHANNEL_COUNT 7
 #define G_CHANNEL_ONE_SCENE_MAX_NOTE 100
 #define G_SHORT_NOTE 2
 #define G_LONG_NOTE 3
@@ -15,20 +15,28 @@
 @interface Note : NSObject {
 @public    int gId;
 @public    double pos,len;
+@public    int channel;
 @public    int type, state;
 }
+-(Note*)init;
 @end
 
 
 @interface SceneNote : NSObject {
-int timestamp;
-NSMutableArray *channel[G_MAX_CHANNEL_COUNT];
+@public double basePos;
+@public NSMutableArray* channel;//[G_MAX_CHANNEL_COUNT];
+@public NSMutableArray* lastBeginIdx; //[G_MAX_CHANNEL_COUNT]; //迭代加速，闭区间
+//@public NSMutableArray* lastEndIdx; //[G_MAX_CHANNEL_COUNT]; //迭代加速，闭区间
+@public int lastTsBpmIdx; //迭代加速
 }
+-(SceneNote*)init;
 @end
 
 
 @interface BMSEngine : NSObject
--(int)getCurScene:(SceneNote*)scene atTimestamp:(double)ts;
+-(BMSEngine*)initWithPathname:(NSString*)pathname;
+-(int)getCurScene:(SceneNote*)scene atTimestamp:(double)curTs inRange:(double)barRange;
+
 @end
 
 
