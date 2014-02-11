@@ -347,6 +347,14 @@ BMSEngine *gBmsEngine = nil;
             //NSLog(@"[Debug][pos:%lf][len:%lf][channel:%d]",note->pos, note->len, note->channel);
         }
     }
+    for (int i=0; i<G_MAX_CHANNEL_COUNT; i++) {
+        int curId = 0;
+        for (NSObject* obj in channel[i]) {
+            Note* note = (Note*)obj;
+            note->gId = curId++;
+            note->state = NOTE_STATE_SLEEP;
+        }
+    }
     
     //TODO:release sth.
     return 0;

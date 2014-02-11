@@ -11,6 +11,12 @@
 #define G_CHANNEL_ONE_SCENE_MAX_NOTE 100
 #define G_SHORT_NOTE 2
 #define G_LONG_NOTE 3
+
+#define NOTE_STATE_SLEEP 0
+#define NOTE_STATE_ONSCENE 1
+#define NOTE_STATE_TOUCHED 2
+#define NOTE_STATE_SILENCE 3
+
 //TODO: Node static
 @interface Note : NSObject {
 @public    int gId;

@@ -9,8 +9,11 @@
 #import "PlayViewController.h"
 #import "DataManager.h"
 #import "BMSEngine.h"
+#import "PlayView.h"
+#import "Scene.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <SpriteKit/SpriteKit.h>
 @interface PlayViewController () {
     AVAudioPlayer *audioPlayer;
 }
@@ -30,7 +33,23 @@
 
 - (void)viewDidLoad
 {
+    //self.window.rootViewController.view
     [super viewDidLoad];
+    
+    CGRect viewRect=CGRectMake(0, 50, 550, 50);
+    PlayView *playView=[[PlayView alloc] initWithFrame:viewRect];
+    
+    CGRect skViewRect=CGRectMake(50, 300, 200, 100);
+    SKView* skView=[[SKView alloc]initWithFrame:skViewRect];
+    skView.showsDrawCount=YES;
+    skView.showsFPS=YES;
+    SKScene* hello = [[SKScene alloc] initWithSize:CGSizeMake(768,1024)];
+    [skView presentScene:hello];
+    
+    //[self.view addSubview:playView];
+    //[self.view addSubview:skView];
+    self.view = playView;
+    
     [self play];
 	// Do any additional setup after loading the view.
 }
@@ -89,26 +108,23 @@
     }
     
     BMSEngine* bms = [[BMSEngine alloc]initWithPathname:self.userConfigSongName];
-    SceneNote* scene = [[SceneNote alloc]init];
+    SceneNote* sceneNote = [[SceneNote alloc]init];
+    Scene* scene = [[Scene alloc]initWithView:self.view];
     
     //loopSource [basicTimestamp, etc..]
     NSMutableDictionary *cb = [[NSMutableDictionary alloc] init];
     [cb setObject:self.userConfigSongName forKey:@"name"];
     [cb setObject:audioPlayer forKey:@"audio"];
     [cb setObject:bms forKey:@"bms"];
+    [cb setObject:sceneNote forKey:@"scene notes"];
     [cb setObject:scene forKey:@"scene"];
-    
     
     [audioPlayer play];
     
     if (playTimer == nil) {
         playTimer = [NSTimer scheduledTimerWithTimeInterval:1/60.0 target:self selector:@selector(timeLoop:) userInfo:cb repeats:YES];
     }
-/*
-    keyTimer=[[NSTimer scheduledTimerWithTimeInterval: 0.7/60.0 target: self selector:@selector(keylineAnimate) userInfo:NULL repeats:YES] retain];
-    NSTimer启动时机？ 是否audioPlay也用NSTimer控制？
-    精确控制原理
- */
+
 }
 
 //不可重入
@@ -117,15 +133,16 @@
     NSString *name = [loopConf objectForKey:@"name"];
     AVAudioPlayer *player = [loopConf objectForKey:@"audio"];
     BMSEngine* bms = [loopConf objectForKey:@"bms"];
-    SceneNote* scene = [loopConf objectForKey:@"scene"];
+    SceneNote* sceneNote = [loopConf objectForKey:@"scene notes"];
+    Scene* scene = [loopConf objectForKey:@"scene"];
     
 
 //    NSLog(@"[Debug][%@] time loop:%lf duration:%lf",[loopConf objectForKey:@"name"],player.currentTime,player.duration);
     
     double globalTimestamp = player.currentTime;
-    [bms getCurScene:scene atTimestamp:globalTimestamp inRange:1.0];
-    NSLog(@"[Check][timeloop:%@][ts:%lf pos:%lf][%d %d %d]",name, globalTimestamp, scene->basePos, [scene->channel[0] count], [scene->channel[1] count], [scene->channel[2] count]);
-    
+    [bms getCurScene:sceneNote atTimestamp:globalTimestamp inRange:1.0];
+    NSLog(@"[Check][timeloop:%@][ts:%lf pos:%lf][%d %d %d]",name, globalTimestamp, sceneNote->basePos, [sceneNote->channel[0] count], [sceneNote->channel[1] count], [sceneNote->channel[2] count]);
+    [scene renderAs:sceneNote];
     //curSceneScoreNodes = [BmsEngine getCurScene:scene atTimestamp:curtimestamp]
     //[Scene drawWithScoreNodes:curSceneNodes]
     
