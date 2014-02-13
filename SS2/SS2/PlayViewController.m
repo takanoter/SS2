@@ -36,7 +36,7 @@
     //self.window.rootViewController.view
     [super viewDidLoad];
     
-    CGRect viewRect=CGRectMake(0, 50, 550, 50);
+    CGRect viewRect=CGRectMake(0, 0, 550, LAYOUT_BASE_Y+LAYOUT_CHANNEL_HEIGHT);
     PlayView *playView=[[PlayView alloc] initWithFrame:viewRect];
     
     CGRect skViewRect=CGRectMake(50, 300, 200, 100);
@@ -46,9 +46,9 @@
     SKScene* hello = [[SKScene alloc] initWithSize:CGSizeMake(768,1024)];
     [skView presentScene:hello];
     
-    //[self.view addSubview:playView];
+    [self.view addSubview:playView];
     //[self.view addSubview:skView];
-    self.view = playView;
+    //self.view = playView;
     
     [self play];
 	// Do any additional setup after loading the view.
