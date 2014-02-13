@@ -139,9 +139,9 @@
 
 //    NSLog(@"[Debug][%@] time loop:%lf duration:%lf",[loopConf objectForKey:@"name"],player.currentTime,player.duration);
     
-    double globalTimestamp = player.currentTime;
-    [bms getCurScene:sceneNote atTimestamp:globalTimestamp inRange:1.0];
-    NSLog(@"[Check][timeloop:%@][ts:%lf pos:%lf][%d %d %d]",name, globalTimestamp, sceneNote->basePos, [sceneNote->channel[0] count], [sceneNote->channel[1] count], [sceneNote->channel[2] count]);
+    double globalTimestamp = player.currentTime + bms->bgmFixedTs;
+    [bms getCurScene:sceneNote atTimestamp:globalTimestamp inRange:0.5];
+    //NSLog(@"[Check][timeloop:%@][ts:%lf pos:%lf][%d %d %d]",name, globalTimestamp, sceneNote->basePos, [sceneNote->channel[0] count], [sceneNote->channel[1] count], [sceneNote->channel[2] count]);
     [scene renderAs:sceneNote];
     //curSceneScoreNodes = [BmsEngine getCurScene:scene atTimestamp:curtimestamp]
     //[Scene drawWithScoreNodes:curSceneNodes]

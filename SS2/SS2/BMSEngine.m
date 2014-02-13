@@ -291,6 +291,8 @@ BMSEngine *gBmsEngine = nil;
     }
     
     [self processBaseBpmNote:id2bpm to:shiftNotes];
+    bool bgm = false;
+    double bgmPos = 0;
     for (NSObject *obj in tmpNotes) {
         Note* note = (Note*)obj;
         if (note->channel == 8) {
@@ -301,6 +303,8 @@ BMSEngine *gBmsEngine = nil;
             [self processShortNote:note to:channelNotes];
         } else if (note->channel>=51 && note->channel<=58) {
             [self processLongNote:note to:channelNotes atState:channelState];
+        } else if ((note->channel == 1) && (!bgm)){
+            bgmPos = note->pos; bgm=true;
         } else {
             NSLog(@"[Notice] unknow note channel:[channel:%d pos:%lf type:%d]",
                   note->channel, note->pos, note->type);
@@ -356,6 +360,19 @@ BMSEngine *gBmsEngine = nil;
         }
     }
     
+    bgmFixedTs = 0;
+    lastPos = 0;
+    lastBpm = 0;
+    lastTs = 0;
+    for (NSObject* obj in ts2bar) {
+        ShiftNote* note = (ShiftNote*)obj;
+        if (note->pos > bgmPos) break;
+        lastPos = note->pos;
+        lastBpm = note->bpm;
+        lastTs = note->timestamp;
+    }
+    bgmFixedTs = lastTs + (bgmPos - lastPos)*4*60/lastBpm;
+    NSLog(@"[Check] bgm fixed ts:%lf", bgmFixedTs);
     //TODO:release sth.
     return 0;
 }

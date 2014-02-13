@@ -39,7 +39,9 @@
 @end
 
 
-@interface BMSEngine : NSObject
+@interface BMSEngine : NSObject {
+@public double bgmFixedTs;
+}
 -(BMSEngine*)initWithPathname:(NSString*)pathname;
 -(int)getCurScene:(SceneNote*)scene atTimestamp:(double)curTs inRange:(double)barRange;
 

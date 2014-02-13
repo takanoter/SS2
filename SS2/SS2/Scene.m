@@ -46,7 +46,7 @@
             Note* note = (Note*)obj;
             if (note->type == G_LONG_NOTE) continue;
             double dx = LAYOUT_BASE_X + i * LAYOUT_CHANNEL_WEIGHT;
-            double dy = LAYOUT_BASE_Y + (note->pos - basePos) * LAYOUT_CHANNEL_HEIGHT;
+            double dy = LAYOUT_BASE_Y + LAYOUT_CHANNEL_HEIGHT - (note->pos - basePos) /(0.5)* LAYOUT_CHANNEL_HEIGHT;
             
             //TODO:range check
             UIImageView* imageView = (UIImageView*)notes[curImageViewId++];
