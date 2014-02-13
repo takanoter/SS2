@@ -420,6 +420,8 @@ BMSEngine *gBmsEngine = nil;
     scene->lastTsBpmIdx = curTsBpmIdx;
     scene->basePos = beginPos;
     
+    //FIXME: tiny, view more.
+    beginPos -= 0.1;
     
     for (int i=0; i<G_MAX_CHANNEL_COUNT; i++) {
         NSMutableArray* baseNotes = channel[i];
