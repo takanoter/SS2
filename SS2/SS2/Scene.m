@@ -8,7 +8,7 @@
 
 #import "Scene.h"
 #define G_MAX_SCENE_NOTE_COUNT 256
-#define LAYOUT_NOTE_X 40
+#define LAYOUT_NOTE_X 64
 #define LAYOUT_NOTE_Y 0
 
 #define CHANNEL_EVENT_NEW_SHORT_NOTE 0
@@ -105,7 +105,7 @@
         for (NSObject* obj in sceneNote->channel[i]) {
             Note* note = (Note*)obj;
             if (note->state != NOTE_STATE_TOUCHED) {
-                if (note->pos - basePos < 0.01) {
+                if (note->pos - basePos < 0.002) {
                     note->state = NOTE_STATE_TOUCHED;
                     if (note->type == G_LONG_NOTE) {
                         [self channelStateEvent:CHANNEL_EVENT_NEW_LONG_NOTE atChannel:i];
@@ -118,8 +118,8 @@
             if (note->type == G_LONG_NOTE) {
                 
                 double dx = LAYOUT_BASE_X + i * LAYOUT_CHANNEL_WEIGHT;
-                double dy = LAYOUT_BASE_Y + LAYOUT_CHANNEL_HEIGHT - (note->pos - basePos) /(0.5)* LAYOUT_CHANNEL_HEIGHT;
-                double length = (note->len)/(0.5)*LAYOUT_CHANNEL_HEIGHT;
+                double dy = LAYOUT_BASE_Y + LAYOUT_CHANNEL_HEIGHT - (note->pos - basePos) /(G_SCENE_RANGE)* LAYOUT_CHANNEL_HEIGHT;
+                double length = (note->len)/(G_SCENE_RANGE)*LAYOUT_CHANNEL_HEIGHT;
                 //TODO:range check
                 UIImageView* imageView = (UIImageView*)notes[curImageViewId++];
                 imageView.frame = CGRectMake(LAYOUT_NOTE_X,LAYOUT_NOTE_Y,32.0,length);
@@ -127,7 +127,7 @@
             } else { //G_SHORT_NOTE
                 //if (note->pos < basePos) continue; //not on scene
                 double dx = LAYOUT_BASE_X + i * LAYOUT_CHANNEL_WEIGHT;
-                double dy = LAYOUT_BASE_Y + LAYOUT_CHANNEL_HEIGHT - (note->pos - basePos) /(0.5)* LAYOUT_CHANNEL_HEIGHT;
+                double dy = LAYOUT_BASE_Y + LAYOUT_CHANNEL_HEIGHT - (note->pos - basePos) /(G_SCENE_RANGE)* LAYOUT_CHANNEL_HEIGHT;
                 //TODO:range check
                 UIImageView* imageView = (UIImageView*)notes[curImageViewId++];
                 imageView.frame = CGRectMake(LAYOUT_NOTE_X, LAYOUT_NOTE_Y, 32.0, 8.0);
@@ -138,6 +138,7 @@
     for (int i=curImageViewId; i<lastImageViewId; i++) {
         UIImageView* imageView = (UIImageView*)notes[i];
         imageView.center = CGPointMake(LAYOUT_NOTE_X, LAYOUT_NOTE_Y);
+        imageView.frame = CGRectMake(LAYOUT_NOTE_X, LAYOUT_NOTE_Y, 32.0, 8.0);
     }
     lastImageViewId = curImageViewId;
     

@@ -9,6 +9,7 @@
 #import "PlayView.h"
 #import "BMSEngine.h"
 #import <Foundation/Foundation.h>
+#define G_SCENE_RANGE 0.5
 
 #define LAYOUT_CHANNEL_WEIGHT 32
 #define LAYOUT_CHANNEL_HEIGHT 512

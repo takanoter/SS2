@@ -10,6 +10,7 @@
 #import "DataManager.h"
 #import "BMSEngine.h"
 #import "PlayView.h"
+#import "SKPlayView.h"
 #import "Scene.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
@@ -35,22 +36,27 @@
 {
     //self.window.rootViewController.view
     [super viewDidLoad];
-    
-    CGRect viewRect=CGRectMake(0, 0, 550, LAYOUT_BASE_Y+LAYOUT_CHANNEL_HEIGHT);
+
+
+    CGRect viewRect=CGRectMake(0, 0, 450, LAYOUT_BASE_Y+LAYOUT_CHANNEL_HEIGHT);
     PlayView *playView=[[PlayView alloc] initWithFrame:viewRect];
-    
-    CGRect skViewRect=CGRectMake(50, 300, 200, 100);
-    SKView* skView=[[SKView alloc]initWithFrame:skViewRect];
-    skView.showsDrawCount=YES;
-    skView.showsFPS=YES;
-    SKScene* hello = [[SKScene alloc] initWithSize:CGSizeMake(768,1024)];
-    [skView presentScene:hello];
+
+    /*
+
+    */
     
     [self.view addSubview:playView];
+    [self play];
+
+    
+    CGRect skViewRect=CGRectMake(550, 0, 450, LAYOUT_BASE_Y+LAYOUT_CHANNEL_HEIGHT);
+    BMSEngine* anotherBms = [[BMSEngine alloc]initWithPathname:self.userConfigSongName];
+    SKPlayView* skView=[[SKPlayView alloc]initWithFrame:skViewRect syncWith:audioPlayer byBms:anotherBms];
+    [self.view addSubview:skView];
+    
     //[self.view addSubview:skView];
     //self.view = playView;
     
-    [self play];
 	// Do any additional setup after loading the view.
 }
 
@@ -65,6 +71,7 @@
 }
 
 - (IBAction)onTapBackButton:(id)sender {
+    [audioPlayer stop];
     [self performSegueWithIdentifier:@"seguePlay2SongSelect" sender:self];
 }
 
@@ -140,7 +147,7 @@
 //    NSLog(@"[Debug][%@] time loop:%lf duration:%lf",[loopConf objectForKey:@"name"],player.currentTime,player.duration);
     
     double globalTimestamp = player.currentTime + bms->bgmFixedTs;
-    [bms getCurScene:sceneNote atTimestamp:globalTimestamp inRange:0.5];
+    [bms getCurScene:sceneNote atTimestamp:globalTimestamp inRange:G_SCENE_RANGE];
     //NSLog(@"[Check][timeloop:%@][ts:%lf pos:%lf][%d %d %d]",name, globalTimestamp, sceneNote->basePos, [sceneNote->channel[0] count], [sceneNote->channel[1] count], [sceneNote->channel[2] count]);
     [scene renderAs:sceneNote];
     //curSceneScoreNodes = [BmsEngine getCurScene:scene atTimestamp:curtimestamp]
