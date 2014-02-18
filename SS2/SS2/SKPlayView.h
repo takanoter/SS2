@@ -11,6 +11,5 @@
 #import <AudioToolbox/AudioToolbox.h>
 @interface SKPlayView : SKView {
 }
-- (void) render;
 - (id)initWithFrame:(CGRect)frame syncWith:(AVAudioPlayer*)audioPlayer byBms:(BMSEngine*)bms;
 @end

@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #define G_MAX_CHANNEL_COUNT 7
-#define G_CHANNEL_ONE_SCENE_MAX_NOTE 100
 #define G_SHORT_NOTE 2
 #define G_LONG_NOTE 3
 

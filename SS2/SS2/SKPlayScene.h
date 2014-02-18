@@ -13,5 +13,5 @@
     @public AVAudioPlayer *audioPlayer;
     @public BMSEngine *bms;
 }
--(void)render;
+
 @end

@@ -30,9 +30,6 @@
     return self;
 }
 
-- (void) render {
-    [now render];
-}
 
 
 // Only override drawRect: if you perform custom drawing.

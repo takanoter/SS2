@@ -12,6 +12,7 @@
 #import "PlayView.h"
 #import "SKPlayView.h"
 #import "Scene.h"
+#import "UILayout.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <SpriteKit/SpriteKit.h>
@@ -38,18 +39,15 @@
     [super viewDidLoad];
 
 
-    CGRect viewRect=CGRectMake(0, 0, 450, LAYOUT_BASE_Y+LAYOUT_CHANNEL_HEIGHT);
+    CGRect viewRect=CGRectMake(0, 0, 450, SIZE_CHANNEL_Y);
     PlayView *playView=[[PlayView alloc] initWithFrame:viewRect];
 
-    /*
-
-    */
     
     [self.view addSubview:playView];
     [self play];
 
     
-    CGRect skViewRect=CGRectMake(550, 0, 450, LAYOUT_BASE_Y+LAYOUT_CHANNEL_HEIGHT);
+    CGRect skViewRect=CGRectMake(550, 0, 450, SIZE_CHANNEL_Y);
     BMSEngine* anotherBms = [[BMSEngine alloc]initWithPathname:self.userConfigSongName];
     SKPlayView* skView=[[SKPlayView alloc]initWithFrame:skViewRect syncWith:audioPlayer byBms:anotherBms];
     [self.view addSubview:skView];

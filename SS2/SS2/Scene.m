@@ -7,9 +7,7 @@
 //
 
 #import "Scene.h"
-#define G_MAX_SCENE_NOTE_COUNT 256
-#define LAYOUT_NOTE_X 64
-#define LAYOUT_NOTE_Y 0
+#import "UILayout.h"
 
 #define CHANNEL_EVENT_NEW_SHORT_NOTE 0
 #define CHANNEL_EVENT_NEW_LONG_NOTE 1
@@ -26,24 +24,30 @@
     if (self==[super init]) {
         view = playView;
         lastImageViewId = 0;
-        notes = [[NSMutableArray alloc]initWithCapacity:G_MAX_SCENE_NOTE_COUNT];
-        for (int i=0; i<G_MAX_SCENE_NOTE_COUNT; i++) {
-            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(LAYOUT_NOTE_X, LAYOUT_NOTE_Y, 32.0, 8.0)];
-            imageView.image = [UIImage imageNamed:@"KEYA1.png"];
-            
-            imageView.center = CGPointMake(LAYOUT_NOTE_X, LAYOUT_NOTE_Y);
+        notes = [[NSMutableArray alloc]initWithCapacity:G_SCENE_MAX_SHORT_NOTE_COUNT];
+        for (int i=0; i<G_SCENE_MAX_SHORT_NOTE_COUNT; i++) {
+            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(LAYOUT_OFFSCENE_X, LAYOUT_OFFSCENE_Y, SIZE_ANOTHER_KEY_X, SIZE_ANOTHER_KEY_Y)];
+            NSString* tmpName = [NSString stringWithFormat:@"%@%d",@UIS_ANOTHER_KEY_PATTERN_PREFIX,UIS_ANOTHER_KEY_PATTERN_COUNT-1];
+            imageView.image = [UIImage imageNamed:tmpName];
+            if (imageView.image == nil) {
+                NSLog(@"[Warning] failed to load image %@", tmpName);
+            }
+            imageView.center = CGPointMake(LAYOUT_OFFSCENE_X, LAYOUT_OFFSCENE_Y);
             notes[i] = imageView;
             [view addSubview:imageView];
         }
         bloom = [[NSMutableArray alloc]initWithCapacity:G_MAX_CHANNEL_COUNT];
         for (int i=0; i<G_MAX_CHANNEL_COUNT; i++) {
-            NSMutableArray *tmpArray = [[NSMutableArray alloc]initWithCapacity:G_BLOOM_MAX_COUNT];
+            NSMutableArray *tmpArray = [[NSMutableArray alloc]initWithCapacity:UIS_BLOOM_PATTERN_COUNT];
             bloom[i] = tmpArray;
-            for (int j=0; j<G_BLOOM_MAX_COUNT; j++) {
-                UIImageView* imageView = [[UIImageView alloc]initWithFrame:CGRectMake(LAYOUT_NOTE_X, LAYOUT_NOTE_Y, 32.0, 20.0)];
-                NSString* fileName = [NSString stringWithFormat:@"Note_Click1_2.ojt%d.png", j];
+            for (int j=0; j<UIS_BLOOM_PATTERN_COUNT; j++) {
+                UIImageView* imageView = [[UIImageView alloc]initWithFrame:CGRectMake(LAYOUT_OFFSCENE_Y, LAYOUT_OFFSCENE_Y, SIZE_BLOOM_X, SIZE_BLOOM_Y)];
+                NSString* fileName = [NSString stringWithFormat:@"%@%d", @UIS_BLOOM_PATTERN_PREFIX, j];
                 imageView.image = [UIImage imageNamed:fileName];
-                imageView.center = CGPointMake(LAYOUT_NOTE_X, LAYOUT_NOTE_Y);
+                if (imageView.image == nil) {
+                    NSLog(@"[Warning] failed to load image %@", fileName);
+                }
+                imageView.center = CGPointMake(LAYOUT_OFFSCENE_X, LAYOUT_OFFSCENE_Y);
                 tmpArray[j] = imageView;
                 [view addSubview:imageView];
             }
@@ -81,7 +85,7 @@
         
         NSMutableArray* tmpArray = bloom[i];
         UIImageView* imageView = tmpArray[state];
-        imageView.center = CGPointMake(LAYOUT_NOTE_X, LAYOUT_NOTE_Y);
+        imageView.center = CGPointMake(LAYOUT_OFFSCENE_Y, LAYOUT_OFFSCENE_Y);
         if (state == 11) {
             state = -1;
         } else {
@@ -89,7 +93,7 @@
         }
         if (state != -1) {
             imageView = tmpArray[state];
-            imageView.center = CGPointMake(LAYOUT_NOTE_X + i*LAYOUT_CHANNEL_WEIGHT, LAYOUT_NOTE_Y + LAYOUT_CHANNEL_HEIGHT+32);
+            imageView.center = CGPointMake(LAYOUT_CHANNEL_BASE_X + i*SIZE_CHANNEL_X, LAYOUT_CHANNEL_BASE_Y + SIZE_CHANNEL_Y);
         }
         
         [channelState replaceObjectAtIndex:i withObject:[NSNumber numberWithInt:state]];
@@ -117,28 +121,28 @@
             
             if (note->type == G_LONG_NOTE) {
                 
-                double dx = LAYOUT_BASE_X + i * LAYOUT_CHANNEL_WEIGHT;
-                double dy = LAYOUT_BASE_Y + LAYOUT_CHANNEL_HEIGHT - (note->pos - basePos) /(G_SCENE_RANGE)* LAYOUT_CHANNEL_HEIGHT;
-                double length = (note->len)/(G_SCENE_RANGE)*LAYOUT_CHANNEL_HEIGHT;
+                double dx = LAYOUT_CHANNEL_BASE_X + i * SIZE_CHANNEL_X;
+                double dy = LAYOUT_CHANNEL_BASE_Y + SIZE_CHANNEL_Y - (note->pos - basePos) /(G_SCENE_RANGE)* SIZE_CHANNEL_Y;
+                double length = (note->len)/(G_SCENE_RANGE)*SIZE_CHANNEL_Y;
                 //TODO:range check
                 UIImageView* imageView = (UIImageView*)notes[curImageViewId++];
-                imageView.frame = CGRectMake(LAYOUT_NOTE_X,LAYOUT_NOTE_Y,32.0,length);
+                imageView.frame = CGRectMake(dx,dy,SIZE_ANOTHER_KEY_X,length);
                 imageView.center = CGPointMake(dx, dy-length/2);
             } else { //G_SHORT_NOTE
                 //if (note->pos < basePos) continue; //not on scene
-                double dx = LAYOUT_BASE_X + i * LAYOUT_CHANNEL_WEIGHT;
-                double dy = LAYOUT_BASE_Y + LAYOUT_CHANNEL_HEIGHT - (note->pos - basePos) /(G_SCENE_RANGE)* LAYOUT_CHANNEL_HEIGHT;
+                double dx = LAYOUT_CHANNEL_BASE_X+ i * SIZE_CHANNEL_X;
+                double dy = LAYOUT_CHANNEL_BASE_Y+SIZE_CHANNEL_Y - (note->pos - basePos) /(G_SCENE_RANGE)* SIZE_CHANNEL_Y;
                 //TODO:range check
                 UIImageView* imageView = (UIImageView*)notes[curImageViewId++];
-                imageView.frame = CGRectMake(LAYOUT_NOTE_X, LAYOUT_NOTE_Y, 32.0, 8.0);
+                imageView.frame = CGRectMake(dx, dy, SIZE_ANOTHER_KEY_X, SIZE_ANOTHER_KEY_Y);
                 imageView.center = CGPointMake(dx, dy);
             }
         }
     }
     for (int i=curImageViewId; i<lastImageViewId; i++) {
         UIImageView* imageView = (UIImageView*)notes[i];
-        imageView.center = CGPointMake(LAYOUT_NOTE_X, LAYOUT_NOTE_Y);
-        imageView.frame = CGRectMake(LAYOUT_NOTE_X, LAYOUT_NOTE_Y, 32.0, 8.0);
+        imageView.center = CGPointMake(LAYOUT_OFFSCENE_X, LAYOUT_OFFSCENE_Y);
+        imageView.frame = CGRectMake(LAYOUT_OFFSCENE_X, LAYOUT_OFFSCENE_Y, SIZE_ANOTHER_KEY_X, SIZE_ANOTHER_KEY_Y);
     }
     lastImageViewId = curImageViewId;
     
