@@ -8,28 +8,67 @@
 
 #import "DataManager.h"
 DataManager *gDataMgr = NULL;
+@implementation SongSourceItem
+-(SongSourceItem*)initWithHeader:(NSString*)header byName:(NSString*)name ofType:(NSString*)type {
+    if (self=[super init]) {
+        self.header = header;
+        self.name = name;
+        self.type = type;
+    }
+    return self;
+}
+@end
 
 @implementation SongSource
+-(int)fileAnalyse {
+    NSString* tmp;
+
+    NSString *bmsFilePath=[[NSBundle mainBundle] pathForResource:self.name ofType:@"bms"];
+    if (nil == bmsFilePath) {
+        NSLog(@"[Warning] bms file[%@] not found.", self.name);
+        return -1;
+    }
+    
+    NSData* reader= [NSData dataWithContentsOfFile:bmsFilePath];
+    if (nil == reader) {
+        NSLog(@"[Warning] failed to read bms %@ file.", self.name);
+        return -2;
+    }
+    
+    NSStringEncoding gbkEncoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+    NSString* tmpStr = [[NSString alloc]initWithBytes:[reader bytes] length:[reader length] encoding:gbkEncoding];
+
+    NSArray* lines = [tmpStr componentsSeparatedByString:@"\n"];
+    NSEnumerator* nse = [lines objectEnumerator];
+    while (tmp = [nse nextObject]) {
+        if (![tmp hasPrefix:@"#WAV"]) continue;
+        tmp = [tmp stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+        //FIXME: change separatedByStr -> at some pos.
+        NSArray* tinys = [tmp componentsSeparatedByString:@" "];
+                
+        NSArray* slips = [[tmp substringFromIndex:7] componentsSeparatedByString:@"."];
+        NSLog(@"tmp:[%@][%@][%@]",tinys[0], slips[0], slips[1]);
+        SongSourceItem* item = [[SongSourceItem alloc]initWithHeader:tinys[0] byName:slips[0] ofType:slips[1]];
+        [self.items setObject:item forKey:tinys[0]];
+    }
+    return 0;
+}
 -(SongSource*)initWithId:(NSInteger)songId SourceName:(NSString*)songName BasePath:(NSString*)songUri {
     if (self=[super init]) {
         self.sourceId = songId;
         self.name = songName;
         self.extendJsonInfo = NULL;
-        self.uri1 = [NSString stringWithFormat:@"%@/%@.bms", songUri, songName];
-        self.uri1Type =[NSString stringWithFormat:@"bms"];
-        self.uri2 =[NSString stringWithFormat:@"%@/%@.mp3", songUri, songName];
-        self.uri2Type = [NSString stringWithFormat:@"mp3"];
+        self.items = [[NSMutableDictionary alloc]init];
+        //file operations
+        [self fileAnalyse];
     }
     return self;
 }
 
-- (NSString*)getMp3Uri {
-    return self.uri2;
+- (NSString*)getBaseMp3Name {
+    return nil;
 }
 
-- (NSString*)getBmsUri {
-    return self.uri1;
-}
 @end
 
 @implementation DataManager

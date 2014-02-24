@@ -82,9 +82,10 @@
         return -1;
     }
     
+    //NSString* tmp = [NSString stringWithFormat:@"%@.mp3",songName];
     NSString *musicFilePath=[
                              myBundle pathForResource:songName
-                             ofType:@"mp3" ];
+                             ofType:@"mp3"];
     
     if (nil != musicFilePath) {
         NSError *error;
@@ -96,13 +97,11 @@
         audioPlayer.numberOfLoops = 1; //-1
         NSLog(@"[OK]:load mp3:%@ success. %@", songName, [error localizedDescription]);
     } else {
-        NSLog(@"[Warning] failed get music[%@] file %@", songName, [source getMp3Uri]);
+        NSLog(@"[Warning] failed get music[%@]", songName);
         return -1;
     }
     return 0;
 }
-
-
 
 - (void)play {
     int ret = 0;

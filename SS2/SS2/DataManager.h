@@ -10,24 +10,30 @@
 
 
 //  {sourceId, sourceName, extendInfo, [uri, sourceType]}
+@interface SongSourceItem: NSObject
+@property NSString* header;
+@property NSString* name;
+@property NSString* type;
+-(SongSourceItem*)initWithHeader:(NSString*)header byName:(NSString*)name ofType:(NSString*)type;
+@end
+
 @interface SongSource : NSObject
 @property NSInteger sourceId;
 @property NSString *name;
 @property NSString *extendJsonInfo;
-@property NSString *uri1, *uri1Type; //for bms
-@property NSString *uri2, *uri2Type; //for mp3
+@property NSMutableDictionary *items; // WAV0A -> SongSourceItem*
 
 -(SongSource*)initWithId:(NSInteger)sourceId SourceName:(NSString*)name BasePath:(NSString*)uri;
-- (NSString*)getMp3Uri;
-- (NSString*)getBmsUri;
+- (NSString*)getBaseMp3Name;
+//- (NSString*)getBmsUri;
 @end
 
 //  TODO:thread-safe, global-instance
 @interface DataManager : NSObject
 //  contents
 @property Boolean init; //TODO:thread-safe fm-state
-@property NSMutableArray *songsById;
-@property NSMutableDictionary *songsByName;
+@property NSMutableArray *songsById;  //id->source
+@property NSMutableDictionary *songsByName;  //name->source
 
 //  outer
 - (void)loadFromSandboxDir:(NSString*)baseDir;

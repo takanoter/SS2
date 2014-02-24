@@ -153,7 +153,7 @@
 		02628E4E18AE2C080001160E /* HongMoFang.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = HongMoFang.mp3; path = BMS/HongMoFang.mp3; sourceTree = "<group>"; };
 		02759C8C1882D2C8004BF9A3 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
 		02759C8D1882D2C8004BF9A3 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
-		02ADE761188584B200FD64F0 /* SS2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SS2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		02ADE761188584B200FD64F0 /* SS2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = SS2.app; path = "/Users/takanoter/Documents/code/SS2/SS2/build/Debug-iphoneos/SS2.app"; sourceTree = "<absolute>"; };
 		02ADE762188597AC00FD64F0 /* BMSEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMSEngine.h; sourceTree = "<group>"; };
 		02ADE763188597AC00FD64F0 /* BMSEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMSEngine.m; sourceTree = "<group>"; };
 		02B0D68218B2FEB1008887AF /* UILayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UILayout.h; sourceTree = "<group>"; };
@@ -230,7 +230,6 @@
 			children = (
 				0230B7AA18813CFC003EB836 /* SS2 */,
 				0230B7A318813CFC003EB836 /* Frameworks */,
-				02ADE761188584B200FD64F0 /* SS2.app */,
 			);
 			sourceTree = "<group>";
 		};

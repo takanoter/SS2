@@ -394,6 +394,7 @@ BMSEngine *gBmsEngine = nil;
         NSLog(@"[Warning] failed to read bms %@ file.", pathname);
         return -2;
     }
+
     ret = [self parse:reader];
     init = true;
     return ret;

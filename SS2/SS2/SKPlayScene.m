@@ -348,8 +348,8 @@
                 nodePA.position = CGPointMake(dx,dy);
 
                 double length = (note->len)/(G_SCENE_RANGE)*SIZE_CHANNEL_Y*2;
-                length += length/4; //picture adjust by percent
-                dy+=length/2 - length/20; //picture adjust by percent
+                //length += length/4; //picture adjust by percent
+                dy+=length/2 /*- length/20*/; //picture adjust by percent
                 SKSpriteNode* nodePB = self.longNotesB[curLongNoteId];
                 nodePB.size = CGSizeMake(SIZE_LONG_NOTE_X, length);
                 nodePB.position = CGPointMake(dx,dy);

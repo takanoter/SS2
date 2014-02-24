@@ -40,10 +40,10 @@
 
 //ui资源大小、间距
 #define SIZE_SHORT_NOTE_X 64
-#define SIZE_SHORT_NOTE_Y 64
+#define SIZE_SHORT_NOTE_Y 32
 #define SIZE_LONG_NOTE_X 64
 #define SIZE_LONG_NOTE_Y 64
-#define SIZE_LONG_NOTE_FIX_Y 128
+#define SIZE_LONG_NOTE_FIX_Y 0
 #define SIZE_CHANNEL_X 32
 #define SIZE_CHANNEL_Y 512
 #define SIZE_COOL_X 318
@@ -71,11 +71,11 @@
 #define UIS_COOL_PATTERN_COUNT 1
 #define UIS_COOL_PATTERN_PREFIX "cool_a_"
 #define UIS_KEY_PATTERN_COUNT 1
-#define UIS_KEY_PATTERN_PREFIX "key_b_"
+#define UIS_KEY_PATTERN_PREFIX "key_a_"
 #define UIS_KEY_P0_PATTERN_COUNT 1
-#define UIS_KEY_P0_PATTERN_PREFIX "key_b_part0_"
+#define UIS_KEY_P0_PATTERN_PREFIX "" //"key_b_part0_"
 #define UIS_KEY_P1_PATTERN_COUNT 1
-#define UIS_KEY_P1_PATTERN_PREFIX "key_b_part1_"
+#define UIS_KEY_P1_PATTERN_PREFIX "key_a_" //"key_b_part1_"
 #define UIS_NUM_PATTERN_COUNT 10
 #define UIS_NUM_PATTERN_PREFIX "num_a_"
 
