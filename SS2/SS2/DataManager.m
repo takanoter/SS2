@@ -53,6 +53,32 @@ DataManager *gDataMgr = NULL;
     }
     return 0;
 }
+
+
+- (NSString*)getBaseMp3Name {
+    SongSourceItem* cur;
+    NSString* bigName = nil;
+    NSNumber* bigSize = [[NSNumber alloc]initWithInt:0];
+    NSFileManager* fm = [NSFileManager defaultManager];
+    NSEnumerator* nse = [self.items objectEnumerator];
+    NSError* error;
+    NSString* directoryPath =NSHomeDirectory();
+    while (cur = [nse nextObject]) {
+        if (![cur.type isEqual:@"mp3"]) continue;
+        NSString* pathname=[NSString stringWithFormat:@"%@/BMS/%@.%@", directoryPath, cur.name, cur.type];
+        NSDictionary *attr = [fm attributesOfItemAtPath:pathname error:&error];
+        if (attr==nil) {
+            NSLog(@"[Warning]get base mp3[%@] attr failed:%@",pathname, error);
+            continue;
+        }
+        if ([attr objectForKey:NSFileSize] > bigSize) {
+            bigSize = [attr objectForKey:NSFileSize];
+            bigName = cur.name;
+        }
+    }
+    return bigName;
+}
+
 -(SongSource*)initWithId:(NSInteger)songId SourceName:(NSString*)songName BasePath:(NSString*)songUri {
     if (self=[super init]) {
         self.sourceId = songId;
@@ -63,10 +89,6 @@ DataManager *gDataMgr = NULL;
         [self fileAnalyse];
     }
     return self;
-}
-
-- (NSString*)getBaseMp3Name {
-    return nil;
 }
 
 @end

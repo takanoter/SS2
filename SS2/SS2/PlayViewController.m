@@ -83,6 +83,10 @@
     }
     
     //NSString* tmp = [NSString stringWithFormat:@"%@.mp3",songName];
+    SongSource* ss = [gDataMgr getSourceByName:songName];
+    NSString* baseSongName = [ss getBaseMp3Name];
+
+
     NSString *musicFilePath=[
                              myBundle pathForResource:songName
                              ofType:@"mp3"];

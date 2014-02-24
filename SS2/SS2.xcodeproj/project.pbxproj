@@ -50,6 +50,26 @@
 		02628E5018AE2C080001160E /* HongMoFang.bms in Resources */ = {isa = PBXBuildFile; fileRef = 02628E4D18AE2C080001160E /* HongMoFang.bms */; };
 		02628E5118AE2C080001160E /* HongMoFang.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 02628E4E18AE2C080001160E /* HongMoFang.mp3 */; };
 		02759C8E1882D2C8004BF9A3 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 02759C8D1882D2C8004BF9A3 /* DataManager.m */; };
+		029B037418BB49EC0001769B /* 14 - Evans -prototype-.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 029B036018BB49EC0001769B /* 14 - Evans -prototype-.mp3 */; };
+		029B037518BB49EC0001769B /* Fallen Angel.bms in Resources */ = {isa = PBXBuildFile; fileRef = 029B036118BB49EC0001769B /* Fallen Angel.bms */; };
+		029B037618BB49EC0001769B /* Fallen Angel.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 029B036218BB49EC0001769B /* Fallen Angel.mp3 */; };
+		029B037718BB49EC0001769B /* Legend of moonlight.bms in Resources */ = {isa = PBXBuildFile; fileRef = 029B036318BB49EC0001769B /* Legend of moonlight.bms */; };
+		029B037818BB49EC0001769B /* Legend of moonlight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 029B036418BB49EC0001769B /* Legend of moonlight.mp3 */; };
+		029B037918BB49EC0001769B /* Never say goodbye.bms in Resources */ = {isa = PBXBuildFile; fileRef = 029B036518BB49EC0001769B /* Never say goodbye.bms */; };
+		029B037A18BB49EC0001769B /* Never say goodbye.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 029B036618BB49EC0001769B /* Never say goodbye.mp3 */; };
+		029B037B18BB49EC0001769B /* sakura vortex.bms in Resources */ = {isa = PBXBuildFile; fileRef = 029B036718BB49EC0001769B /* sakura vortex.bms */; };
+		029B037C18BB49EC0001769B /* sakura vortex.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 029B036818BB49EC0001769B /* sakura vortex.mp3 */; };
+		029B037D18BB49EC0001769B /* The prince of darkness.bms in Resources */ = {isa = PBXBuildFile; fileRef = 029B036918BB49EC0001769B /* The prince of darkness.bms */; };
+		029B037E18BB49EC0001769B /* The prince of darkness.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 029B036A18BB49EC0001769B /* The prince of darkness.mp3 */; };
+		029B037F18BB49EC0001769B /* Thor (Extended ver.).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 029B036B18BB49EC0001769B /* Thor (Extended ver.).mp3 */; };
+		029B038018BB49EC0001769B /* Time after time.bms in Resources */ = {isa = PBXBuildFile; fileRef = 029B036C18BB49EC0001769B /* Time after time.bms */; };
+		029B038118BB49EC0001769B /* Time after time.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 029B036D18BB49EC0001769B /* Time after time.mp3 */; };
+		029B038218BB49EC0001769B /* 红模仿.bms in Resources */ = {isa = PBXBuildFile; fileRef = 029B036E18BB49EC0001769B /* 红模仿.bms */; };
+		029B038318BB49EC0001769B /* 红模仿.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 029B036F18BB49EC0001769B /* 红模仿.mp3 */; };
+		029B038418BB49EC0001769B /* 四季协奏曲-冬(混音版).bms in Resources */ = {isa = PBXBuildFile; fileRef = 029B037018BB49EC0001769B /* 四季协奏曲-冬(混音版).bms */; };
+		029B038518BB49EC0001769B /* 四季协奏曲-冬(混音版).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 029B037118BB49EC0001769B /* 四季协奏曲-冬(混音版).mp3 */; };
+		029B038618BB49EC0001769B /* 永久指针.bms in Resources */ = {isa = PBXBuildFile; fileRef = 029B037218BB49EC0001769B /* 永久指针.bms */; };
+		029B038718BB49EC0001769B /* 永久指针.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 029B037318BB49EC0001769B /* 永久指针.mp3 */; };
 		02ADE764188597AC00FD64F0 /* BMSEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 02ADE763188597AC00FD64F0 /* BMSEngine.m */; };
 		02B0D6AD18B302D6008887AF /* background_a_0.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 02B0D68318B302D6008887AF /* background_a_0.PNG */; };
 		02B0D6AE18B302D6008887AF /* bloom_a_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 02B0D68418B302D6008887AF /* bloom_a_0.png */; };
@@ -153,7 +173,27 @@
 		02628E4E18AE2C080001160E /* HongMoFang.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = HongMoFang.mp3; path = BMS/HongMoFang.mp3; sourceTree = "<group>"; };
 		02759C8C1882D2C8004BF9A3 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
 		02759C8D1882D2C8004BF9A3 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
-		02ADE761188584B200FD64F0 /* SS2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = SS2.app; path = "/Users/takanoter/Documents/code/SS2/SS2/build/Debug-iphoneos/SS2.app"; sourceTree = "<absolute>"; };
+		029B035F18B7317A0001769B /* SS2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = SS2.app; path = "/Users/takanoter/Documents/code/SS2/SS2/build/Debug-iphoneos/SS2.app"; sourceTree = "<absolute>"; };
+		029B036018BB49EC0001769B /* 14 - Evans -prototype-.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "14 - Evans -prototype-.mp3"; path = "BMS/14 - Evans -prototype-.mp3"; sourceTree = "<group>"; };
+		029B036118BB49EC0001769B /* Fallen Angel.bms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Fallen Angel.bms"; path = "BMS/Fallen Angel.bms"; sourceTree = "<group>"; };
+		029B036218BB49EC0001769B /* Fallen Angel.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Fallen Angel.mp3"; path = "BMS/Fallen Angel.mp3"; sourceTree = "<group>"; };
+		029B036318BB49EC0001769B /* Legend of moonlight.bms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Legend of moonlight.bms"; path = "BMS/Legend of moonlight.bms"; sourceTree = "<group>"; };
+		029B036418BB49EC0001769B /* Legend of moonlight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Legend of moonlight.mp3"; path = "BMS/Legend of moonlight.mp3"; sourceTree = "<group>"; };
+		029B036518BB49EC0001769B /* Never say goodbye.bms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Never say goodbye.bms"; path = "BMS/Never say goodbye.bms"; sourceTree = "<group>"; };
+		029B036618BB49EC0001769B /* Never say goodbye.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Never say goodbye.mp3"; path = "BMS/Never say goodbye.mp3"; sourceTree = "<group>"; };
+		029B036718BB49EC0001769B /* sakura vortex.bms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "sakura vortex.bms"; path = "BMS/sakura vortex.bms"; sourceTree = "<group>"; };
+		029B036818BB49EC0001769B /* sakura vortex.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "sakura vortex.mp3"; path = "BMS/sakura vortex.mp3"; sourceTree = "<group>"; };
+		029B036918BB49EC0001769B /* The prince of darkness.bms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "The prince of darkness.bms"; path = "BMS/The prince of darkness.bms"; sourceTree = "<group>"; };
+		029B036A18BB49EC0001769B /* The prince of darkness.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "The prince of darkness.mp3"; path = "BMS/The prince of darkness.mp3"; sourceTree = "<group>"; };
+		029B036B18BB49EC0001769B /* Thor (Extended ver.).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Thor (Extended ver.).mp3"; path = "BMS/Thor (Extended ver.).mp3"; sourceTree = "<group>"; };
+		029B036C18BB49EC0001769B /* Time after time.bms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Time after time.bms"; path = "BMS/Time after time.bms"; sourceTree = "<group>"; };
+		029B036D18BB49EC0001769B /* Time after time.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time after time.mp3"; path = "BMS/Time after time.mp3"; sourceTree = "<group>"; };
+		029B036E18BB49EC0001769B /* 红模仿.bms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "红模仿.bms"; path = "BMS/红模仿.bms"; sourceTree = "<group>"; };
+		029B036F18BB49EC0001769B /* 红模仿.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "红模仿.mp3"; path = "BMS/红模仿.mp3"; sourceTree = "<group>"; };
+		029B037018BB49EC0001769B /* 四季协奏曲-冬(混音版).bms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "四季协奏曲-冬(混音版).bms"; path = "BMS/四季协奏曲-冬(混音版).bms"; sourceTree = "<group>"; };
+		029B037118BB49EC0001769B /* 四季协奏曲-冬(混音版).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "四季协奏曲-冬(混音版).mp3"; path = "BMS/四季协奏曲-冬(混音版).mp3"; sourceTree = "<group>"; };
+		029B037218BB49EC0001769B /* 永久指针.bms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "永久指针.bms"; path = "BMS/永久指针.bms"; sourceTree = "<group>"; };
+		029B037318BB49EC0001769B /* 永久指针.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "永久指针.mp3"; path = "BMS/永久指针.mp3"; sourceTree = "<group>"; };
 		02ADE762188597AC00FD64F0 /* BMSEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMSEngine.h; sourceTree = "<group>"; };
 		02ADE763188597AC00FD64F0 /* BMSEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMSEngine.m; sourceTree = "<group>"; };
 		02B0D68218B2FEB1008887AF /* UILayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UILayout.h; sourceTree = "<group>"; };
@@ -295,6 +335,26 @@
 		02759C901882D3D5004BF9A3 /* BMS */ = {
 			isa = PBXGroup;
 			children = (
+				029B036018BB49EC0001769B /* 14 - Evans -prototype-.mp3 */,
+				029B036118BB49EC0001769B /* Fallen Angel.bms */,
+				029B036218BB49EC0001769B /* Fallen Angel.mp3 */,
+				029B036318BB49EC0001769B /* Legend of moonlight.bms */,
+				029B036418BB49EC0001769B /* Legend of moonlight.mp3 */,
+				029B036518BB49EC0001769B /* Never say goodbye.bms */,
+				029B036618BB49EC0001769B /* Never say goodbye.mp3 */,
+				029B036718BB49EC0001769B /* sakura vortex.bms */,
+				029B036818BB49EC0001769B /* sakura vortex.mp3 */,
+				029B036918BB49EC0001769B /* The prince of darkness.bms */,
+				029B036A18BB49EC0001769B /* The prince of darkness.mp3 */,
+				029B036B18BB49EC0001769B /* Thor (Extended ver.).mp3 */,
+				029B036C18BB49EC0001769B /* Time after time.bms */,
+				029B036D18BB49EC0001769B /* Time after time.mp3 */,
+				029B036E18BB49EC0001769B /* 红模仿.bms */,
+				029B036F18BB49EC0001769B /* 红模仿.mp3 */,
+				029B037018BB49EC0001769B /* 四季协奏曲-冬(混音版).bms */,
+				029B037118BB49EC0001769B /* 四季协奏曲-冬(混音版).mp3 */,
+				029B037218BB49EC0001769B /* 永久指针.bms */,
+				029B037318BB49EC0001769B /* 永久指针.mp3 */,
 				02C3F3F418B37518006C9E22 /* Xeus.bms */,
 				02C3F3F518B37518006C9E22 /* Xeus.mp3 */,
 				02628E4D18AE2C080001160E /* HongMoFang.bms */,
@@ -393,7 +453,7 @@
 			);
 			name = SS2;
 			productName = SS2;
-			productReference = 02ADE761188584B200FD64F0 /* SS2.app */;
+			productReference = 029B035F18B7317A0001769B /* SS2.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -428,6 +488,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				029B038718BB49EC0001769B /* 永久指针.mp3 in Resources */,
 				02628E4618AE2BEA0001160E /* SakuraVortex.bms in Resources */,
 				02B0D6B918B302D6008887AF /* bloom_a_11.png in Resources */,
 				02628E2818AE2AE00001160E /* LegendOfMoonlight.mp3 in Resources */,
@@ -438,36 +499,51 @@
 				02B0D6AD18B302D6008887AF /* background_a_0.PNG in Resources */,
 				02628E5018AE2C080001160E /* HongMoFang.bms in Resources */,
 				0230B7AF18813CFC003EB836 /* InfoPlist.strings in Resources */,
+				029B037818BB49EC0001769B /* Legend of moonlight.mp3 in Resources */,
 				02B0D6C518B302D6008887AF /* combo_a_3.png in Resources */,
 				02B0D6BB18B302D6008887AF /* bloom_b_1.png in Resources */,
 				02B0D6D418B302D6008887AF /* num_a_7.png in Resources */,
+				029B037D18BB49EC0001769B /* The prince of darkness.bms in Resources */,
+				029B037C18BB49EC0001769B /* sakura vortex.mp3 in Resources */,
 				02B0D6B018B302D6008887AF /* bloom_a_2.png in Resources */,
+				029B037918BB49EC0001769B /* Never say goodbye.bms in Resources */,
+				029B038118BB49EC0001769B /* Time after time.mp3 in Resources */,
 				02B0D6D218B302D6008887AF /* num_a_5.png in Resources */,
 				02628E2F18AE2AE00001160E /* Thor.bms in Resources */,
 				0230B7B718813CFC003EB836 /* Default.png in Resources */,
+				029B037F18BB49EC0001769B /* Thor (Extended ver.).mp3 in Resources */,
 				02B0D6B718B302D6008887AF /* bloom_a_9.png in Resources */,
 				02B0D6BD18B302D6008887AF /* bloom_b_3.png in Resources */,
 				02B0D6BE18B302D6008887AF /* bloom_c_0.png in Resources */,
 				02B0D6C218B302D6008887AF /* combo_a_0.png in Resources */,
 				02628E3118AE2AE00001160E /* Winter.bms in Resources */,
+				029B038018BB49EC0001769B /* Time after time.bms in Resources */,
+				029B037E18BB49EC0001769B /* The prince of darkness.mp3 in Resources */,
 				02B0D6B418B302D6008887AF /* bloom_a_6.png in Resources */,
 				02B0D6BA18B302D6008887AF /* bloom_b_0.png in Resources */,
 				02B0D6AF18B302D6008887AF /* bloom_a_1.png in Resources */,
+				029B038218BB49EC0001769B /* 红模仿.bms in Resources */,
 				02B0D6AE18B302D6008887AF /* bloom_a_0.png in Resources */,
 				02B0D6C018B302D6008887AF /* bloom_c_2.png in Resources */,
 				02B0D6C618B302D6008887AF /* combo_a_4.png in Resources */,
 				02628E2E18AE2AE00001160E /* ThePrinceOfDarkness.mp3 in Resources */,
+				029B038318BB49EC0001769B /* 红模仿.mp3 in Resources */,
+				029B037A18BB49EC0001769B /* Never say goodbye.mp3 in Resources */,
 				0230B7B918813CFC003EB836 /* Default@2x.png in Resources */,
 				0230B7BB18813CFC003EB836 /* Default-568h@2x.png in Resources */,
 				02B0D6D318B302D6008887AF /* num_a_6.png in Resources */,
 				0230B7BE18813CFC003EB836 /* MainStoryboard.storyboard in Resources */,
 				02628E2A18AE2AE00001160E /* Nobody.mp3 in Resources */,
+				029B038518BB49EC0001769B /* 四季协奏曲-冬(混音版).mp3 in Resources */,
 				02B0D6CE18B302D6008887AF /* num_a_1.png in Resources */,
 				02B0D6C318B302D6008887AF /* combo_a_1.png in Resources */,
 				02B0D6B218B302D6008887AF /* bloom_a_4.png in Resources */,
 				02628E2918AE2AE00001160E /* Nobody.bms in Resources */,
 				02628E3218AE2AE00001160E /* Winter.mp3 in Resources */,
+				029B037418BB49EC0001769B /* 14 - Evans -prototype-.mp3 in Resources */,
+				029B038618BB49EC0001769B /* 永久指针.bms in Resources */,
 				02628E2218AE2AE00001160E /* Evans.mp3 in Resources */,
+				029B037518BB49EC0001769B /* Fallen Angel.bms in Resources */,
 				02628E2418AE2AE00001160E /* FallenAngel.mp3 in Resources */,
 				02B0D6BC18B302D6008887AF /* bloom_b_2.png in Resources */,
 				02628E2B18AE2AE00001160E /* OnePiece.bms in Resources */,
@@ -479,6 +555,7 @@
 				02628E4B18AE2BEA0001160E /* Traces.mp3 in Resources */,
 				02B0D6C118B302D6008887AF /* bloom_c_3.png in Resources */,
 				02628E2718AE2AE00001160E /* LegendOfMoonlight.bms in Resources */,
+				029B037618BB49EC0001769B /* Fallen Angel.mp3 in Resources */,
 				02628E5118AE2C080001160E /* HongMoFang.mp3 in Resources */,
 				02628E4218AE2BEA0001160E /* NeverSayGoodbye.bms in Resources */,
 				02B0D6D618B302D6008887AF /* num_a_9.png in Resources */,
@@ -499,9 +576,12 @@
 				02628E2118AE2AE00001160E /* Evans.bms in Resources */,
 				02628E2D18AE2AE00001160E /* ThePrinceOfDarkness.bms in Resources */,
 				02B0D6B318B302D6008887AF /* bloom_a_5.png in Resources */,
+				029B037B18BB49EC0001769B /* sakura vortex.bms in Resources */,
+				029B037718BB49EC0001769B /* Legend of moonlight.bms in Resources */,
 				02B0D6B618B302D6008887AF /* bloom_a_8.png in Resources */,
 				02B0D6B818B302D6008887AF /* bloom_a_10.png in Resources */,
 				02C3F3F718B37518006C9E22 /* Xeus.mp3 in Resources */,
+				029B038418BB49EC0001769B /* 四季协奏曲-冬(混音版).bms in Resources */,
 				02628E4918AE2BEA0001160E /* TimeAfterTime.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
