@@ -62,10 +62,12 @@ DataManager *gDataMgr = NULL;
     NSFileManager* fm = [NSFileManager defaultManager];
     NSEnumerator* nse = [self.items objectEnumerator];
     NSError* error;
-    NSString* directoryPath =NSHomeDirectory();
+    NSString *directoryPath= [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@""];
+
+    //NSString* directoryPath =NSHomeDirectory();
     while (cur = [nse nextObject]) {
         if (![cur.type isEqual:@"mp3"]) continue;
-        NSString* pathname=[NSString stringWithFormat:@"%@/BMS/%@.%@", directoryPath, cur.name, cur.type];
+        NSString* pathname=[NSString stringWithFormat:@"%@/%@.%@", directoryPath, cur.name, cur.type];
         NSDictionary *attr = [fm attributesOfItemAtPath:pathname error:&error];
         if (attr==nil) {
             NSLog(@"[Warning]get base mp3[%@] attr failed:%@",pathname, error);
