@@ -17,7 +17,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <SpriteKit/SpriteKit.h>
 @interface PlayViewController () {
-    AVAudioPlayer *audioPlayer;
+//    AVAudioPlayer *audioPlayer;
 }
 
 @end
@@ -49,7 +49,7 @@
     
     CGRect skViewRect=CGRectMake(550, 0, 450, SIZE_CHANNEL_Y);
     BMSEngine* anotherBms = [[BMSEngine alloc]initWithPathname:self.userConfigSongName];
-    SKPlayView* skView=[[SKPlayView alloc]initWithFrame:skViewRect syncWith:audioPlayer byBms:anotherBms];
+    SKPlayView* skView=[[SKPlayView alloc]initWithFrame:skViewRect byBms:anotherBms];
     [self.view addSubview:skView];
     
     //[self.view addSubview:skView];
@@ -69,7 +69,7 @@
 }
 
 - (IBAction)onTapBackButton:(id)sender {
-    [audioPlayer stop];
+    //[audioPlayer stop];
     [self performSegueWithIdentifier:@"seguePlay2SongSelect" sender:self];
 }
 
@@ -86,9 +86,9 @@
     SongSource* ss = [gDataMgr getSourceByName:songName];
     NSString* baseSongName = [ss getBaseMp3Name];
 
-
+/*
     NSString *musicFilePath=[
-                             myBundle pathForResource:songName
+                             myBundle pathForResource:baseSongName  //songName
                              ofType:@"mp3"];
     
     if (nil != musicFilePath) {
@@ -104,6 +104,7 @@
         NSLog(@"[Warning] failed get music[%@]", songName);
         return -1;
     }
+*/
     return 0;
 }
 
@@ -122,12 +123,12 @@
     //loopSource [basicTimestamp, etc..]
     NSMutableDictionary *cb = [[NSMutableDictionary alloc] init];
     [cb setObject:self.userConfigSongName forKey:@"name"];
-    [cb setObject:audioPlayer forKey:@"audio"];
+//    [cb setObject:audioPlayer forKey:@"audio"];
     [cb setObject:bms forKey:@"bms"];
     [cb setObject:sceneNote forKey:@"scene notes"];
     [cb setObject:scene forKey:@"scene"];
     
-    [audioPlayer play];
+//    [audioPlayer play];
     
     if (playTimer == nil) {
         playTimer = [NSTimer scheduledTimerWithTimeInterval:1/60.0 target:self selector:@selector(timeLoop:) userInfo:cb repeats:YES];
@@ -147,7 +148,7 @@
 
 //    NSLog(@"[Debug][%@] time loop:%lf duration:%lf",[loopConf objectForKey:@"name"],player.currentTime,player.duration);
     
-    double globalTimestamp = player.currentTime + bms->bgmFixedTs;
+    double globalTimestamp = player.currentTime;
     [bms getCurScene:sceneNote atTimestamp:globalTimestamp inRange:G_SCENE_RANGE];
     //NSLog(@"[Check][timeloop:%@][ts:%lf pos:%lf][%d %d %d]",name, globalTimestamp, sceneNote->basePos, [sceneNote->channel[0] count], [sceneNote->channel[1] count], [sceneNote->channel[2] count]);
     [scene renderAs:sceneNote];

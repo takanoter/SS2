@@ -39,6 +39,9 @@
 @property NSMutableArray* cool;
 @property int coolState;
 
+@property BgmNote* baseBgmNote;
+@property double lastGlobalTimestamp;
+
 @end
 
 @implementation SKPlayScene
@@ -51,6 +54,7 @@
 }
 -(void)didMoveToView:(SKView *)view {
     if (!self.contentCreated) {
+        self.baseBgmNote = nil;
         self.backgroundColor = [SKColor blackColor];
         self.scaleMode = SKSceneScaleModeAspectFit;
         //[self addChild:[self newHelloNode]];
@@ -291,14 +295,47 @@
     
 }
 
+-(void) playWavByNote:(Note*)note{
+    NSMutableDictionary* sign2audio = bms->sign2audio;
+    NSNumber* number = [NSNumber numberWithInteger:note->type];
+    Audio* audio = [sign2audio objectForKey:number];
+    if (nil != audio) {
+        [audio->audioPlayer play];
+    }
+}
+
+-(void)playBgmNote:(BgmNote*)bgmNote {
+    self.baseBgmNote = bgmNote;
+    [bgmNote->audio play];
+}
+
 -(void) update : (NSTimeInterval)currentTime{
     //float timeBegin = [[NSDate date] timeIntervalSince1970];
 
     int curShortNoteId = 0;
     int curLongNoteId = 0;
     SceneNote* scene = self.sceneNote;
-    double globalTimestamp = audioPlayer.currentTime + bms->bgmFixedTs;
+    
+    double globalTimestamp = 0;
+    if (self.baseBgmNote==nil) {
+        globalTimestamp += self.lastGlobalTimestamp + 1*1.0/60.0;
+        self.lastGlobalTimestamp = globalTimestamp;
+    } else {
+        if (self.baseBgmNote->audio.isPlaying) {
+            globalTimestamp = self.baseBgmNote->audio.currentTime + self.baseBgmNote->ts;
+            self.lastGlobalTimestamp = globalTimestamp;
+        } else {
+            self.baseBgmNote = nil;
+        }
+    }
+    
+    //bgmNote: [audioPlayer, ts]
     [bms getCurScene:scene atTimestamp:globalTimestamp inRange:G_SCENE_RANGE];
+    
+    for (NSObject* obj in scene->bgmChannel) {
+        BgmNote* note = (BgmNote*)obj;
+        [self playBgmNote:note];
+    }
     
     double basePos = scene->basePos;
     for (int i=0; i<G_MAX_CHANNEL_COUNT; i++) {
@@ -327,10 +364,11 @@
                             self.comboNow++;
                         }
                     }
-                } else {
+                } else { //G_SHORT_NOTE
                     if (note->pos -basePos < 0.002) {
                         if (note->state!=NOTE_STATE_SILENCE) { //状态，重入保护
                             [self channelStateEvent:CHANNEL_EVENT_NEW_SHORT_NOTE atChannel:i];
+                          //  [self playWavByNote:note];
                             channelDeal = true;
                             note->state = NOTE_STATE_SILENCE;
                             self.comboNow++;

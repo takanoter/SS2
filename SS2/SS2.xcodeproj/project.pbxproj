@@ -133,7 +133,7 @@
 		02628E3E18AE2BEA0001160E /* Traces.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Traces.mp3; path = BMS/Traces.mp3; sourceTree = "<group>"; };
 		02759C8C1882D2C8004BF9A3 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
 		02759C8D1882D2C8004BF9A3 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
-		029B035F18B7317A0001769B /* SS2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = SS2.app; path = "/Users/takanoter/Documents/code/SS2/SS2/build/Debug-iphoneos/SS2.app"; sourceTree = "<absolute>"; };
+		027A3B3E18BB518A009A532D /* SS2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = SS2.app; path = "/Users/takanoter/Documents/code/SS2/SS2/build/Release-iphoneos/SS2.app"; sourceTree = "<absolute>"; };
 		029B036018BB49EC0001769B /* 14 - Evans -prototype-.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "14 - Evans -prototype-.mp3"; path = "BMS/14 - Evans -prototype-.mp3"; sourceTree = "<group>"; };
 		029B036118BB49EC0001769B /* Fallen Angel.bms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Fallen Angel.bms"; path = "BMS/Fallen Angel.bms"; sourceTree = "<group>"; };
 		029B036218BB49EC0001769B /* Fallen Angel.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Fallen Angel.mp3"; path = "BMS/Fallen Angel.mp3"; sourceTree = "<group>"; };
@@ -393,7 +393,7 @@
 			);
 			name = SS2;
 			productName = SS2;
-			productReference = 029B035F18B7317A0001769B /* SS2.app */;
+			productReference = 027A3B3E18BB518A009A532D /* SS2.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

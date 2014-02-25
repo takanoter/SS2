@@ -15,7 +15,7 @@
 
 @implementation SKPlayView
 
-- (id)initWithFrame:(CGRect)frame syncWith:(AVAudioPlayer*)audioPlayer byBms:(BMSEngine *)bms
+- (id)initWithFrame:(CGRect)frame byBms:(BMSEngine *)bms
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -23,7 +23,7 @@
         self.showsDrawCount=YES;
         self.showsFPS=YES;
         now = [[SKPlayScene alloc] initWithSize:CGSizeMake(768,1024)];
-        now->audioPlayer = audioPlayer;
+        //now->audioPlayer = audioPlayer;
         now->bms = bms;
         [self presentScene:now];
     }

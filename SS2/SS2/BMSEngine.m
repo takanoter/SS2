@@ -7,7 +7,12 @@
 //
 
 #import "BMSEngine.h"
-#define G_JINZHI 16
+#import "DataManager.h"
+
+
+#define G_JINZHI 36
+#define G_JINZHI_BPM 16
+
 BMSEngine *gBmsEngine = nil;
 @implementation Note
 -(Note*)init {
@@ -28,6 +33,8 @@ BMSEngine *gBmsEngine = nil;
             channel[i] = [[NSMutableArray alloc]init];
             lastBeginIdx[i] = [NSNumber numberWithInt:0];
         }
+        bgmChannel = [[NSMutableArray alloc]init];
+        lastBgmIdx = 0;
     }
     return self;
 }
@@ -51,10 +58,35 @@ BMSEngine *gBmsEngine = nil;
 }
 @end
 
+
+@implementation BgmNote
+-(BgmNote*)initWithAudio:(AVAudioPlayer*)audioPlayer atTimestamp:(double)timestamp atPosition:(double)position{
+    if (self=[super init]) {
+        ts = timestamp;
+        audio = audioPlayer;
+        pos = position;
+    }
+    return self;
+}
+@end
+
+
+@implementation Audio
+-(Audio*)initAsSign:(NSString*)itemSign byAudio:(AVAudioPlayer*)itemAudio {
+    if (self=[super init]) {
+        sign = itemSign;
+        audioPlayer = itemAudio;
+    }
+    return self;
+}
+@end
+
 @interface BMSEngine() {
     BOOL init;
-    NSMutableArray *channel; //G_MAX_CHANNEL_COUNT
-    NSArray *ts2bar;
+    NSString* name;
+    NSMutableArray* channel; //G_MAX_CHANNEL_COUNT
+    NSArray* ts2bar;
+    NSMutableArray* bgmNotes;
 }
 @end
 
@@ -66,6 +98,13 @@ BMSEngine *gBmsEngine = nil;
     return -1;
 }
 
+//"0A"
+-(int)cal2Sign:(NSString*)sign inBinary:(int)the {
+    char a = [sign characterAtIndex:0];
+    char b = [sign characterAtIndex:1];
+    return [self toNum:a]*the + [self toNum:b];
+}
+
 //sortedByTs:{timestamp, barId}
 //sortedByPos: [channel] notes
 //notes: type, startPos, length
@@ -74,9 +113,79 @@ BMSEngine *gBmsEngine = nil;
         init=false;
         channel=nil;
         ts2bar = nil;
+        sign2audio = nil;
+        name = pathname;
         [self loadFromFile:pathname];
     }
     return self;
+}
+
+-(int)parseWav:(NSData*)reader {
+
+    /*
+    NSString* eachLine = nil;
+    NSStringEncoding gbkEncoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+    NSString* fileStr = [[NSString alloc]initWithBytes:[reader bytes] length:[reader length] encoding:gbkEncoding];
+    NSArray* lines = [fileStr componentsSeparatedByString:@"\n"];
+    NSEnumerator* lineNse = [lines objectEnumerator];
+    //NSArray* extTypeNames = [NSArray arrayWithObjects:@"mp3", @"ogg", @"bmp", @"ogg", nil];
+    while (eachLine = [lineNse nextObject]) {
+        if (![eachLine hasPrefix:@"#WAV"]) continue;
+        eachLine = [eachLine stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    */
+    //NSMutableDictionary* tmpSign2audio = [[NSMutableDictionary alloc]init];
+    sign2audio = [[NSMutableDictionary alloc]init];
+    
+    NSError *error;
+    NSBundle *myBundle = [NSBundle mainBundle];
+    SongSource* ss = [gDataMgr getSourceByName:name];
+    NSMutableDictionary* songItems = ss.items;
+    NSEnumerator* wavNse = [songItems objectEnumerator];
+    SongSourceItem* wavItem = nil;
+    int maxMotion = 0;
+    while (wavItem = [wavNse nextObject]) {
+        if (![wavItem.type isEqual:@"mp3"]) continue;
+        NSString* musicFilePath = [myBundle pathForResource:wavItem.name ofType:wavItem.type];
+        if (musicFilePath==nil) {
+            NSLog(@"[Warning] failed get music[%@]", wavItem.name);
+            continue;
+        }
+        NSURL *musicURL= [[NSURL alloc]initFileURLWithPath:musicFilePath];
+        AVAudioPlayer* audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:musicURL error:&error];
+        if (audioPlayer==nil) {
+            NSLog(@"[Warning] audioplayer nil for[%@] reason[%@]", musicURL, [error localizedDescription]);
+            continue;
+        }
+        [audioPlayer prepareToPlay];
+        [audioPlayer setVolume:1];
+        //audioPlayer.numberOfLoops = 1;
+        NSString* sign = [wavItem.header substringFromIndex:4]; //"#WAV0A" -> "0A"
+        Audio* audio = [[Audio alloc]initAsSign:sign byAudio:audioPlayer];
+        if (audio==nil) {
+            NSLog(@"[Warning]");
+            continue;
+        }
+        int numSign = [self cal2Sign:sign inBinary:G_JINZHI];
+        if (numSign > maxMotion) maxMotion = numSign;
+        [sign2audio setObject:audio forKey:[NSNumber numberWithInteger:numSign]];
+        NSLog(@"[OK]:load mp3:%@ success. %@", sign, /*[error localizedDescription]*/musicURL);
+    }
+    
+    /*
+    sign2audio = [[NSMutableArray alloc]initWithCapacity:maxMotion+1];
+    Audio* curAudio = nil;
+    for (int i=0; i<maxMotion+1; i++) {
+        sign2audio[i] = nil;  //can not setObject with "nil object"
+    }
+    NSEnumerator* nse = [tmpSign2audio objectEnumerator];
+    while (curAudio = [nse nextObject]) {
+        int sign = [self cal2Sign:curAudio->sign inBinary:G_JINZHI];
+        sign2audio[sign] = curAudio;
+    }
+    */
+    
+    
+    return 0;
 }
 
 -(bool)lineCheckMainData:(UInt8*)line withSize:(int)line_size {
@@ -103,7 +212,7 @@ BMSEngine *gBmsEngine = nil;
         noteId = 0;
     } else {
         valueStartPos = 7;
-        noteId = ([self toNum:line[4]])*G_JINZHI + ([self toNum:line[5]]);
+        noteId = ([self toNum:line[4]])*G_JINZHI_BPM + ([self toNum:line[5]]);
     }
     
     bool hasPoint = false;
@@ -137,8 +246,20 @@ BMSEngine *gBmsEngine = nil;
     int param = (line[1]-'0')*100+(line[2]-'0')*10+(line[3]-'0');
     int channel = (line[4]-'0')*10+(line[5]-'0');
     for (int j=7,i=1; j<len; j=j+2,i++) {
-        int motion=([self toNum:line[j]])*G_JINZHI+([self toNum:line[j+1]]);
+        int motion=0;
+
+        if ((channel == 8) || (channel==3)) { //自定义bpm通道，进制为16进制
+            motion=([self toNum:line[j]])*G_JINZHI_BPM+([self toNum:line[j+1]]);
+        } else { //其他通道，进制为36进制
+            motion=([self toNum:line[j]])*G_JINZHI+([self toNum:line[j+1]]);
+        }
         if (motion == 0) continue;
+
+        
+        if (!((channel>=51 && channel<=58) || (channel>=11 && channel<=19))) {
+            NSLog(@"oh channel:%d motion:%d",channel, motion);
+        }
+        
         //int keyID = param*100+channel;
         //NSString *key = [NSString stringWithFormat:@"%d", keyID];
         Note* note = [[Note alloc]init];
@@ -146,6 +267,7 @@ BMSEngine *gBmsEngine = nil;
         note->len = 0;
         note->channel = channel;
         note->type = motion;
+        note->motion = motion;
         [notes addObject:note];
         /*
         ParamBar *param = [notes valueForKey:key];
@@ -179,6 +301,7 @@ BMSEngine *gBmsEngine = nil;
     Note* curNote = [[Note alloc]init];
     curNote->gId = 0;
     curNote->pos = note->pos;
+    curNote->motion = note->motion;
     curNote->len = 0;
     curNote->type = G_SHORT_NOTE;
     curNote->state = 0;
@@ -202,15 +325,22 @@ BMSEngine *gBmsEngine = nil;
     if (noteState->pos == -1) {
         noteState->pos = note->pos;
         noteState->channel = note->channel;
+        noteState->motion = note->motion;
     } else { //noteState->pos != -1
         Note* newNote = [[Note alloc]init];
         newNote->pos = noteState->pos;
         newNote->channel = note->channel;
         newNote->len = note->pos - noteState->pos;
         newNote->type = G_LONG_NOTE;
+        newNote->motion = noteState->motion;
         [channelNotes[curChannel] addObject:newNote];
         noteState->pos = -1;
     }
+    return 0;
+}
+
+-(int) processBgmNote:(Note*)note to:(NSMutableArray*)channelNotes {
+    [channelNotes addObject:note];
     return 0;
 }
 
@@ -238,11 +368,16 @@ BMSEngine *gBmsEngine = nil;
     return 0;
 }
 
+
+
 -(int)parse:(NSData*)reader {
     UInt8 the, line[1024]; //FIXME:max char per line
     int length = [reader length];
     NSMutableArray* tmpNotes = [[NSMutableArray alloc]init];
     NSMutableDictionary* id2bpm = [[NSMutableDictionary alloc]init];
+    
+    NSMutableArray* tmpBgmNotes = [[NSMutableArray alloc]init];
+    bgmNotes = [[NSMutableArray alloc]init];
     
     //1 read file
     bool isMainBody = false;
@@ -278,7 +413,7 @@ BMSEngine *gBmsEngine = nil;
         Note* note = (Note*)obj;
         //NSLog(@"[Debug][pos:%lf][channel:%d][type:%d]", note->pos, note->channel, note->type);
     }
-
+    
     
     NSMutableArray* shiftNotes = [[NSMutableArray alloc]init];
     NSMutableArray* channelNotes = [[NSMutableArray alloc]initWithCapacity:G_MAX_CHANNEL_COUNT];
@@ -291,7 +426,6 @@ BMSEngine *gBmsEngine = nil;
     }
     
     [self processBaseBpmNote:id2bpm to:shiftNotes];
-    bool bgm = false;
     double bgmPos = 0;
     for (NSObject *obj in tmpNotes) {
         Note* note = (Note*)obj;
@@ -303,8 +437,8 @@ BMSEngine *gBmsEngine = nil;
             [self processShortNote:note to:channelNotes];
         } else if (note->channel>=51 && note->channel<=58) {
             [self processLongNote:note to:channelNotes atState:channelState];
-        } else if ((note->channel == 1) && (!bgm)){
-            bgmPos = note->pos; bgm=true;
+        } else if (note->channel == 1) {
+            [self processBgmNote:note to:tmpBgmNotes];
         } else {
             NSLog(@"[Notice] unknow note channel:[channel:%d pos:%lf type:%d]",
                   note->channel, note->pos, note->type);
@@ -331,7 +465,7 @@ BMSEngine *gBmsEngine = nil;
         lastBpm = note->bpm;
         lastPos = note->pos;
         lastTs = note->timestamp;
-        NSLog(@"[Debug][pos:%lf][bpm:%lf][ts:%lf]", note->pos, note->bpm, note->timestamp);
+        //NSLog(@"[Debug][pos:%lf][bpm:%lf][ts:%lf]", note->pos, note->bpm, note->timestamp);
     }
     
     channel = [[NSMutableArray alloc]initWithCapacity:G_MAX_CHANNEL_COUNT];
@@ -360,20 +494,36 @@ BMSEngine *gBmsEngine = nil;
         }
     }
     
-    bgmFixedTs = 0;
-    lastPos = 0;
-    lastBpm = 0;
-    lastTs = 0;
+    //here here here
+    for (NSObject* bgmObj in tmpBgmNotes) {
+        Note* note = (Note*)bgmObj;
+        double ts = 0;
+        lastPos = 0;
+        lastBpm = 0;
+        lastTs = 0;
+        for (NSObject* obj in ts2bar) {
+            ShiftNote* shiftNote = (ShiftNote*)obj;
+            if (shiftNote->pos > note->pos) break;
+            lastPos = shiftNote->pos;
+            lastBpm = shiftNote->bpm;
+            lastTs = shiftNote->timestamp;
+        }
+        ts = lastTs + (note->pos - lastPos)*4*60/lastBpm;
+        
+        Audio* audio = [sign2audio objectForKey:[NSNumber numberWithInteger:note->motion]];
+        if (audio==nil) continue;
+        
+        BgmNote* bgmNote = [[BgmNote alloc]initWithAudio:audio->audioPlayer atTimestamp:ts atPosition:note->pos];
+        [bgmNotes addObject:bgmNote];
+
+        NSLog(@"[Check] bgm fixed ts:%lf", ts);
+    }
+
+    //TODO:release sth.
     for (NSObject* obj in ts2bar) {
         ShiftNote* note = (ShiftNote*)obj;
-        if (note->pos > bgmPos) break;
-        lastPos = note->pos;
-        lastBpm = note->bpm;
-        lastTs = note->timestamp;
+        NSLog(@"pos:%lf bpm%lf ts:%lf", note->pos, note->bpm, note->timestamp);
     }
-    bgmFixedTs = lastTs + (bgmPos - lastPos)*4*60/lastBpm;
-    NSLog(@"[Check] bgm fixed ts:%lf", bgmFixedTs);
-    //TODO:release sth.
     return 0;
 }
 
@@ -394,6 +544,8 @@ BMSEngine *gBmsEngine = nil;
         NSLog(@"[Warning] failed to read bms %@ file.", pathname);
         return -2;
     }
+
+    ret = [self parseWav:reader];
 
     ret = [self parse:reader];
     init = true;
@@ -433,28 +585,42 @@ BMSEngine *gBmsEngine = nil;
             Note* note = (Note*)baseNotes[j];
             if (note->type == G_SHORT_NOTE) {
                 if (note->pos>=beginPos && note->pos<=endPos) { //yes
-                    [notes addObject:note];
+                    [notes addObject:note];  //加入到屏幕中
                     if (j<newBeginIdx) newBeginIdx = j;
                 } else if (note->pos<beginPos) { //no
                     continue;
                 } else { //note->pos>endPos, no
                     break;
                 }
-            } else { // note->type == G_LONG_NOTE
+            } else if (note->type == G_LONG_NOTE) { // note->type == G_LONG_NOTE
                 if ((note->pos + note->len >= beginPos) && (note->pos<=endPos)) { //yes
-                    [notes addObject:note];
+                    [notes addObject:note];  //加入到屏幕中
                     if (j<newBeginIdx) newBeginIdx = j;
                 } else if (note->pos + note->len < beginPos) {
                     continue;
                 } else { //note->pos > endPos, no
                     break;
                 }
+            } else {
+                continue;
             }
         }
         if ([notes count]!= 0) {
             [scene->lastBeginIdx replaceObjectAtIndex:i withObject:[NSNumber numberWithInt:newBeginIdx]];
         }
     }
+    
+    [scene->bgmChannel removeAllObjects];
+    int newLastBgmIdx = [bgmNotes count] - 1;
+    for (int i=scene->lastBgmIdx; i<[bgmNotes count]; i++) {
+        BgmNote* bgmNote = (BgmNote*)bgmNotes[i];
+        if (bgmNote->pos<beginPos) {
+            [scene->bgmChannel addObject:bgmNote];
+            bgmNote->pos = 10000;
+            if (i<newLastBgmIdx) newLastBgmIdx = i;
+        }
+    }
+    scene->lastBgmIdx = newLastBgmIdx;
 
     return 0;
 }

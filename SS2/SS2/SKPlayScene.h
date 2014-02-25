@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 @interface SKPlayScene : SKScene {
-    @public AVAudioPlayer *audioPlayer;
+//    @public AVAudioPlayer *audioPlayer;
     @public BMSEngine *bms;
 }
 

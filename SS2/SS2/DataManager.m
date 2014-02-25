@@ -7,6 +7,8 @@
 //
 
 #import "DataManager.h"
+#define G_JINZHI 36
+
 DataManager *gDataMgr = NULL;
 @implementation SongSourceItem
 -(SongSourceItem*)initWithHeader:(NSString*)header byName:(NSString*)name ofType:(NSString*)type {
@@ -40,15 +42,26 @@ DataManager *gDataMgr = NULL;
 
     NSArray* lines = [tmpStr componentsSeparatedByString:@"\n"];
     NSEnumerator* nse = [lines objectEnumerator];
+    NSArray* extTypeNames = [NSArray arrayWithObjects:@"mp3", @"ogg", @"bmp", @"ogg", nil];
     while (tmp = [nse nextObject]) {
         if (![tmp hasPrefix:@"#WAV"]) continue;
         tmp = [tmp stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-        //FIXME: change separatedByStr -> at some pos.
+
         NSArray* tinys = [tmp componentsSeparatedByString:@" "];
-                
-        NSArray* slips = [[tmp substringFromIndex:7] componentsSeparatedByString:@"."];
-        NSLog(@"tmp:[%@][%@][%@]",tinys[0], slips[0], slips[1]);
-        SongSourceItem* item = [[SongSourceItem alloc]initWithHeader:tinys[0] byName:slips[0] ofType:slips[1]];
+        NSString* totalName = [tmp substringFromIndex:7];
+        NSEnumerator* typeNse = [extTypeNames objectEnumerator];
+        NSString* typeName = nil;
+        while (typeName = [typeNse nextObject]) {
+            if ([totalName hasSuffix:typeName]) break;
+        }
+        if (typeName == nil) {
+            NSLog(@"[Warning] failed to get typename for [%@]", tmp);
+            continue;
+        }
+        NSString* pureName = [totalName substringToIndex:(totalName.length - typeName.length - 1)];
+        
+        NSLog(@"tmp:[%@][%@][%@]",tinys[0], pureName, typeName);
+        SongSourceItem* item = [[SongSourceItem alloc]initWithHeader:tinys[0] byName:pureName ofType:typeName];
         [self.items setObject:item forKey:tinys[0]];
     }
     return 0;
@@ -118,11 +131,17 @@ DataManager *gDataMgr = NULL;
         NSArray *strArray=[(NSString*)obj componentsSeparatedByString:@".bms"];
         if ([strArray count]==1) continue;
         NSString* sourceName = strArray[0];
-        NSString* mp3PathName = [NSString stringWithFormat:@"%@/%@.mp3", resPath, sourceName];
+       // NSString* mp3PathName = [NSString stringWithFormat:@"%@/%@.mp3", resPath, sourceName];
         NSString* bmsPathName = [NSString stringWithFormat:@"%@/%@.bms", resPath, sourceName];
+        /*
         if (([fileMgr fileExistsAtPath:mp3PathName]==NO) ||
             ([fileMgr fileExistsAtPath:bmsPathName]==NO)) continue;
-        NSLog(@"[CHECK] get source:%@ of mp3:%@", sourceName, mp3PathName);
+        */
+        if ([fileMgr fileExistsAtPath:bmsPathName]==NO) {
+            NSLog(@"[Warning] get source name:%@.bms not exist", sourceName);
+            continue;
+        }
+        NSLog(@"[CHECK] get source:%@", sourceName);
         
         //  b.建立对象
         NSInteger globalSourceId = [self.songsById count]; //0-based
@@ -151,6 +170,7 @@ DataManager *gDataMgr = NULL;
 - (NSInteger)songCount {
     return [self.songsById count];
 }
+
 
 - (NSString*)getSourceNameById:(NSInteger)sourceId {
     SongSource* song = (SongSource*)[self.songsById objectAtIndex:sourceId];
