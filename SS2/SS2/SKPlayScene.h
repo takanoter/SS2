@@ -9,9 +9,12 @@
 #import <SpriteKit/SpriteKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import "utils.h"
+
 @interface SKPlayScene : SKScene {
 //    @public AVAudioPlayer *audioPlayer;
     @public BMSEngine *bms;
+    @public BOOL again;
 }
 
 @end

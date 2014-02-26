@@ -144,7 +144,7 @@ BMSEngine *gBmsEngine = nil;
     SongSourceItem* wavItem = nil;
     int maxMotion = 0;
     while (wavItem = [wavNse nextObject]) {
-        if (![wavItem.type isEqual:@"mp3"]) continue;
+        if (!([wavItem.type isEqual:@"mp3"] || [wavItem.type isEqual:@"wav"])) continue;
         NSString* musicFilePath = [myBundle pathForResource:wavItem.name ofType:wavItem.type];
         if (musicFilePath==nil) {
             NSLog(@"[Warning] failed get music[%@]", wavItem.name);
@@ -168,7 +168,8 @@ BMSEngine *gBmsEngine = nil;
         int numSign = [self cal2Sign:sign inBinary:G_JINZHI];
         if (numSign > maxMotion) maxMotion = numSign;
         [sign2audio setObject:audio forKey:[NSNumber numberWithInteger:numSign]];
-        NSLog(@"[OK]:load mp3:%@ success. %@", sign, /*[error localizedDescription]*/musicURL);
+        qldebug(@"[BMS] generate [%@]'s pre-define elements into audio object:"
+                "[sign:%@][name:%@]", self->name, sign, wavItem.name);
     }
     
     /*
@@ -368,8 +369,6 @@ BMSEngine *gBmsEngine = nil;
     return 0;
 }
 
-
-
 -(int)parse:(NSData*)reader {
     UInt8 the, line[1024]; //FIXME:max char per line
     int length = [reader length];
@@ -494,7 +493,7 @@ BMSEngine *gBmsEngine = nil;
         }
     }
     
-    //here here here
+    //background logic
     for (NSObject* bgmObj in tmpBgmNotes) {
         Note* note = (Note*)bgmObj;
         double ts = 0;
@@ -515,14 +514,15 @@ BMSEngine *gBmsEngine = nil;
         
         BgmNote* bgmNote = [[BgmNote alloc]initWithAudio:audio->audioPlayer atTimestamp:ts atPosition:note->pos];
         [bgmNotes addObject:bgmNote];
-
-        NSLog(@"[Check] bgm fixed ts:%lf", ts);
+        qldebug(@"[BMS][Parse] [%@]'s background audio object:"
+                "[ts:%lf][url:%@]", self->name, bgmNote->ts, bgmNote->audio.url);
     }
 
     //TODO:release sth.
     for (NSObject* obj in ts2bar) {
         ShiftNote* note = (ShiftNote*)obj;
-        NSLog(@"pos:%lf bpm%lf ts:%lf", note->pos, note->bpm, note->timestamp);
+        qldebug(@"[BMS][Parse] shift notes found [pos:%lf][bpm%lf][ts:%lf]",
+            note->pos, note->bpm, note->timestamp);
     }
     return 0;
 }
@@ -530,21 +530,19 @@ BMSEngine *gBmsEngine = nil;
 -(int)loadFromFile:(NSString*)pathname {
     int ret = 0;
     NSString *bmsFilePath=[[NSBundle mainBundle] pathForResource:pathname ofType:@"bms"];
-    if (nil != bmsFilePath) {
-        NSLog(@"[OK] find a bms file[%@]",pathname);
-    } else {
+    if (nil == bmsFilePath) {
         NSLog(@"[Warning] bms file[%@] not found.", pathname);
         return -1;
     }
     
     NSData* reader= [NSData dataWithContentsOfFile:bmsFilePath];
-    if (nil != reader) {
-        NSLog(@"[OK] read bms %@ content.", pathname);
-    } else {
+    if (nil == reader) {
         NSLog(@"[Warning] failed to read bms %@ file.", pathname);
         return -2;
     }
-
+    
+    qlinfo(@"[BMS] start parsing bms[%@]", pathname);
+    
     ret = [self parseWav:reader];
 
     ret = [self parse:reader];
@@ -574,7 +572,7 @@ BMSEngine *gBmsEngine = nil;
     scene->basePos = beginPos;
     
     //FIXME: tiny, view more.
-    beginPos -= 0.1;
+    beginPos -= 0.01;
     
     for (int i=0; i<G_MAX_CHANNEL_COUNT; i++) {
         NSMutableArray* baseNotes = channel[i];
@@ -611,16 +609,18 @@ BMSEngine *gBmsEngine = nil;
     }
     
     [scene->bgmChannel removeAllObjects];
-    int newLastBgmIdx = [bgmNotes count] - 1;
+    int newLastBgmIdx = 0;
     for (int i=scene->lastBgmIdx; i<[bgmNotes count]; i++) {
         BgmNote* bgmNote = (BgmNote*)bgmNotes[i];
         if (bgmNote->pos<beginPos) {
             [scene->bgmChannel addObject:bgmNote];
             bgmNote->pos = 10000;
-            if (i<newLastBgmIdx) newLastBgmIdx = i;
-        }
+            if (i>newLastBgmIdx) newLastBgmIdx = i;
+            qltrace(@"[BMS][Work] [%@'s] background audio now on scene [audio:%@][ts:%lf]",
+                    self->name, bgmNote->audio.url, bgmNote->ts);
+        } else break; //偏序，后面都不会再满足条件了。
     }
-    scene->lastBgmIdx = newLastBgmIdx;
+    if (newLastBgmIdx > scene->lastBgmIdx) scene->lastBgmIdx = newLastBgmIdx;
 
     return 0;
 }

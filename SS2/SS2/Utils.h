@@ -9,6 +9,9 @@
 #ifndef SS2_Utils_h
 #define SS2_Utils_h
 
+#import "lcl.h"
+#undef ql_component
+#define ql_component lcl_cMainC1
 
 
 #endif

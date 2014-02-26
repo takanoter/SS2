@@ -30,8 +30,6 @@
 }
 
 - (IBAction)getStarted:(id)sender {
-    NSLog(@"begin perform");
     [self performSegueWithIdentifier:@"segueKickOff2SongSelect" sender:self];
-    NSLog(@"over perform");
 }
 @end

@@ -9,6 +9,7 @@
 #import "PlayView.h"
 #import "BMSEngine.h"
 #import <Foundation/Foundation.h>
+#import "utils.h"
 
 
 #define G_CHANNEL_STATE_BLANK -1

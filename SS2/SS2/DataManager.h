@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "utils.h"
 
 
 //  {sourceId, sourceName, extendInfo, [uri, sourceType]}
@@ -24,8 +25,7 @@
 @property NSMutableDictionary *items; // WAV0A -> SongSourceItem*
 
 -(SongSource*)initWithId:(NSInteger)sourceId SourceName:(NSString*)name BasePath:(NSString*)uri;
-- (NSString*)getBaseMp3Name;
-//- (NSString*)getBmsUri;
+
 @end
 
 //  TODO:thread-safe, global-instance

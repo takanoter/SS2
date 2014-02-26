@@ -16,6 +16,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <SpriteKit/SpriteKit.h>
+
+#import "utils.h"
 @interface PlayViewController () {
 //    AVAudioPlayer *audioPlayer;
 }
@@ -37,18 +39,21 @@
 {
     //self.window.rootViewController.view
     [super viewDidLoad];
+    qltrace(@"[UI][paly view controller] did load");
 
 
     CGRect viewRect=CGRectMake(0, 0, 450, SIZE_CHANNEL_Y);
     PlayView *playView=[[PlayView alloc] initWithFrame:viewRect];
 
     
-    [self.view addSubview:playView];
-    [self play];
+    //[self.view addSubview:playView];
+    //[self play];
 
     
     CGRect skViewRect=CGRectMake(550, 0, 450, SIZE_CHANNEL_Y);
     BMSEngine* anotherBms = [[BMSEngine alloc]initWithPathname:self.userConfigSongName];
+    qlinfo(@"[Song] bms create success[%@]", self.userConfigSongName);
+
     SKPlayView* skView=[[SKPlayView alloc]initWithFrame:skViewRect byBms:anotherBms];
     [self.view addSubview:skView];
     
@@ -59,7 +64,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    NSLog(@"PlayView did appear :%@", [self userConfigSongName]);
+    qltrace(@"[UI][paly view controller] did appear with song name:[%@]", [self userConfigSongName]);
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,10 +75,13 @@
 
 - (IBAction)onTapBackButton:(id)sender {
     //[audioPlayer stop];
+    qltrace(@"[UI][paly view controller] back tap button");
     [self performSegueWithIdentifier:@"seguePlay2SongSelect" sender:self];
 }
 
+/*
 - (int)preparePlayWithName:(NSString*) songName {
+    
     NSBundle *myBundle = [NSBundle mainBundle];
     // NSString *musicFilePath=[myBundle pathForResource:@"Xeus" ofType:@"mp3" ];
     SongSource* source = [gDataMgr getSourceByName:songName];
@@ -83,10 +91,10 @@
     }
     
     //NSString* tmp = [NSString stringWithFormat:@"%@.mp3",songName];
-    SongSource* ss = [gDataMgr getSourceByName:songName];
-    NSString* baseSongName = [ss getBaseMp3Name];
+    
+ SongSource* ss = [gDataMgr getSourceByName:songName];
 
-/*
+ NSString* baseSongName = [ss getBaseMp3Name];
     NSString *musicFilePath=[
                              myBundle pathForResource:baseSongName  //songName
                              ofType:@"mp3"];
@@ -104,10 +112,11 @@
         NSLog(@"[Warning] failed get music[%@]", songName);
         return -1;
     }
-*/
+
     return 0;
 }
-
+*/
+/*
 - (void)play {
     int ret = 0;
     ret = [self preparePlayWithName:self.userConfigSongName];
@@ -135,8 +144,9 @@
     }
 
 }
+*/
 
-//不可重入
+/*不可重入
 - (void) timeLoop:(NSTimer*)timer{
     NSDictionary *loopConf = [timer userInfo];
     NSString *name = [loopConf objectForKey:@"name"];
@@ -156,6 +166,6 @@
     //[Scene drawWithScoreNodes:curSceneNodes]
     
 }
-
+*/
 
 @end

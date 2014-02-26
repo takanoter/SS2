@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "utils.h"
 
 @interface PlayViewController : UIViewController {
     NSTimer *playTimer;
 }
 - (IBAction)onTapBackButton:(id)sender;
 //- (void) timeLoop;
-- (void)play;
+//- (void)play;
 
 
 @property NSString *userConfigSongName;

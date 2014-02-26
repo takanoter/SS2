@@ -42,7 +42,7 @@ DataManager *gDataMgr = NULL;
 
     NSArray* lines = [tmpStr componentsSeparatedByString:@"\n"];
     NSEnumerator* nse = [lines objectEnumerator];
-    NSArray* extTypeNames = [NSArray arrayWithObjects:@"mp3", @"ogg", @"bmp", @"ogg", nil];
+    NSArray* extTypeNames = [NSArray arrayWithObjects:@"mp3", @"ogg", @"bmp", @"wav", nil];
     while (tmp = [nse nextObject]) {
         if (![tmp hasPrefix:@"#WAV"]) continue;
         tmp = [tmp stringByReplacingOccurrencesOfString:@"\r" withString:@""];
@@ -60,14 +60,15 @@ DataManager *gDataMgr = NULL;
         }
         NSString* pureName = [totalName substringToIndex:(totalName.length - typeName.length - 1)];
         
-        NSLog(@"tmp:[%@][%@][%@]",tinys[0], pureName, typeName);
         SongSourceItem* item = [[SongSourceItem alloc]initWithHeader:tinys[0] byName:pureName ofType:typeName];
         [self.items setObject:item forKey:tinys[0]];
+        qltrace(@"[Song][Parse] [%@]'s pre-define-element found into DataManager:[%@][%@][%@]", self.name, tinys[0], pureName, typeName);
+
     }
     return 0;
 }
 
-
+/*
 - (NSString*)getBaseMp3Name {
     SongSourceItem* cur;
     NSString* bigName = nil;
@@ -93,6 +94,7 @@ DataManager *gDataMgr = NULL;
     }
     return bigName;
 }
+ */
 
 -(SongSource*)initWithId:(NSInteger)songId SourceName:(NSString*)songName BasePath:(NSString*)songUri {
     if (self=[super init]) {
@@ -141,7 +143,6 @@ DataManager *gDataMgr = NULL;
             NSLog(@"[Warning] get source name:%@.bms not exist", sourceName);
             continue;
         }
-        NSLog(@"[CHECK] get source:%@", sourceName);
         
         //  b.建立对象
         NSInteger globalSourceId = [self.songsById count]; //0-based
@@ -157,6 +158,7 @@ DataManager *gDataMgr = NULL;
             NSLog(@"WARNING:exist %@", sourceName);
             continue; //TODO:roll back
         }
+        qlinfo(@"[Song] found new song into DataManager:[%@]", sourceName);
         
         //  d.roll back
         //TODO

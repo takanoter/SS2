@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import "utils.h"
 
 #define G_MAX_CHANNEL_COUNT 7
 #define G_SHORT_NOTE 2

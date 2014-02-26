@@ -297,21 +297,33 @@
 
 -(void) playWavByNote:(Note*)note{
     NSMutableDictionary* sign2audio = bms->sign2audio;
-    NSNumber* number = [NSNumber numberWithInteger:note->type];
+    NSNumber* number = [NSNumber numberWithInteger:note->motion];
     Audio* audio = [sign2audio objectForKey:number];
-    if (nil != audio) {
+    if (audio==nil) {
+        //NSLog(@"audio failed to found:%d gid:%d channel:%d", note->motion, note->gId, note->channel);
+    } else {
         [audio->audioPlayer play];
+        //NSLog(@"audio play succ:%d", note->motion);
     }
 }
 
 -(void)playBgmNote:(BgmNote*)bgmNote {
     self.baseBgmNote = bgmNote;
     [bgmNote->audio play];
+    qltrace(@"[BMS][Work] [%@'s] background audio now played [audio:%@][ts:%lf]",
+            self.name, bgmNote->audio.url, bgmNote->ts);
 }
 
 -(void) update : (NSTimeInterval)currentTime{
     //float timeBegin = [[NSDate date] timeIntervalSince1970];
 
+    /*
+    if (again) {
+        again=NO;
+        return;
+    } else again=YES;
+    */
+     
     int curShortNoteId = 0;
     int curLongNoteId = 0;
     SceneNote* scene = self.sceneNote;
@@ -368,7 +380,7 @@
                     if (note->pos -basePos < 0.002) {
                         if (note->state!=NOTE_STATE_SILENCE) { //状态，重入保护
                             [self channelStateEvent:CHANNEL_EVENT_NEW_SHORT_NOTE atChannel:i];
-                          //  [self playWavByNote:note];
+                            [self playWavByNote:note];
                             channelDeal = true;
                             note->state = NOTE_STATE_SILENCE;
                             self.comboNow++;
